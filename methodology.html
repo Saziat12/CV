@@ -202,6 +202,62 @@
       main { padding: 2rem 1.5rem; }
       header h1 { font-size: 2rem; }
     }
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.85);
+  overflow: auto;
+}
+.modal-content {
+  background: var(--card);
+  margin: 15% auto;
+  padding: 2.5rem;
+  border: 1px solid var(--border);
+  width: 90%;
+  max-width: 600px;
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  text-align: center;
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 2.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: -1rem;
+}
+.close:hover { color: white; }
+.demo-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+  margin-top: 2rem;
+}
+@media (min-width: 500px) {
+  .demo-grid { grid-template-columns: 1fr 1fr; }
+}
+.demo-option {
+  background: rgba(59,130,246,0.15);
+  border: 1px solid var(--accent);
+  color: white;
+  padding: 1.1rem;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.demo-option:hover {
+  background: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59,130,246,0.3);
+}
   </style>
 </head>
 <body data-theme="dark">
@@ -278,7 +334,7 @@
       <section class="demo-section">
         <h2>ডেমো</h2>
         <p>এই মেথডোলজি ব্যবহার করে একটি ল্যাব সলভের উদাহরণ (প্রুফ অফ কনসেপ্ট সহ)।</p>
-        <button class="demo-button" onclick="window.open('https://github.com/Saziat12/CV', '_blank')">Check Demo</button>
+	<button class="demo-button" onclick="openDemoModal()">View Demos</button>
       </section>
 
 <p style="text-align: center; margin: 2rem 0; font-size: 0.95rem; opacity: 0.9;">
@@ -356,12 +412,10 @@
       <section class="demo-section">
         <h2>Demo</h2>
         <p>An example of solving a lab using this methodology (with Proof of Concept).</p>
-        <button class="demo-button" onclick="window.open('https://github.com/Saziat12/CV', '_blank')">Check Demo</button>
+        <button class="demo-button" onclick="openDemoModal()">View Demos</button>
       </section>
-
-<p style="text-align: center; margin: 2rem 0; font-size: 0.95rem; opacity: 0.9;">
-  Feel free to download the full CV directory and explore.<br>
-  Hope you like it.
+<p style="text-align: center; margin-top: 1rem; font-size: 0.95rem;">
+  Download All CV Files & Directory → I'm sure you will not be disappointed.
 </p>
 
       <div class="legal">
@@ -369,13 +423,60 @@
         This methodology is for educational, lab practice, or authorized penetration testing only. It must not be applied to any system without permission — this is a crime.
       </div>
     </main>
-
+<!-- Demo Modal -->
+<div id="demoModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeDemoModal()">&times;</span>
+    <h2 style="margin-bottom: 1.5rem;">Select a Demo</h2>
+    <div class="demo-grid">
+      <div class="demo-option" onclick="openDemo(0)">Demo 1</div>
+      <div class="demo-option" onclick="openDemo(1)">Demo 2</div>
+      <div class="demo-option" onclick="openDemo(2)">Demo 3</div>
+      <div class="demo-option" onclick="openDemo(3)">Demo 4</div>
+    </div>
+  </div>
+</div>
     <footer>
       © ২০২৬ MD Saziat Rahman Himel • Ethical Hacking Portfolio
     </footer>
   </div>
 
   <script>
+// Demo Modal functions
+function openDemoModal() {
+  document.getElementById('demoModal').style.display = 'block';
+}
+
+function closeDemoModal() {
+  document.getElementById('demoModal').style.display = 'none';
+}
+
+// তোর ৪টা লিঙ্ক এখানে রাখ
+const demoLinks = [
+  "https://saziat12.github.io/CV/Academy.html",       // Demo 1 লিঙ্ক
+  "https://saziat12.github.io/CV/Dev.html",       // Demo 2
+  "https://saziat12.github.io/CV/Kenobi.html", // Demo 3
+  "https://saziat12.github.io/CV/Blackpearl.html"   // Demo 4
+];
+
+function openDemo(index) {
+  if (demoLinks[index] && demoLinks[index].trim() !== '') {
+    window.open(demoLinks[index], '_blank');
+  } else {
+    alert("এই ডেমোর লিঙ্ক এখনো যোগ করা হয়নি।");
+  }
+  // চাইলে মডাল বন্ধ রাখতে চাস তাহলে এটা আনকমেন্ট কর
+  // closeDemoModal();
+}
+
+// মডালের বাইরে ক্লিক করলে বন্ধ হবে
+window.onclick = function(event) {
+  const modal = document.getElementById('demoModal');
+  if (event.target === modal) {
+    modal.style.display = 'none';
+  }
+}
+
     function toggleTheme() {
       const body = document.body;
       const current = body.getAttribute('data-theme');
