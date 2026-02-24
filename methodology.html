@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>হ্যাকিং মেথডোলজি প্রতিবেদন | MD Saziat Rahman Himel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #0f172a;
+      --text: #e2e8f0;
+      --accent: #3b82f6;
+      --accent-dark: #2563eb;
+      --card: #1e293b;
+      --border: #334155;
+    }
+    
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --text: #0f172a;
+      --accent: #2563eb;
+      --accent-dark: #1d4ed8;
+      --card: #ffffff;
+      --border: #e2e8f0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Hind Siliguri', 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      padding: 3.5rem 2.5rem 2.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: white;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
+
+    header .subtitle {
+      font-size: 1.15rem;
+      opacity: 0.9;
+      color: white;
+    }
+
+    .meta {
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      opacity: 0.85;
+    }
+
+    main {
+      padding: 2.5rem;
+    }
+
+    section {
+      margin-bottom: 2.8rem;
+    }
+
+    h2 {
+      color: var(--accent);
+      font-size: 1.65rem;
+      margin-bottom: 1.2rem;
+      border-left: 5px solid var(--accent);
+      padding-left: 1rem;
+      font-weight: 600;
+    }
+
+    h3 {
+      color: var(--text);
+      font-size: 1.35rem;
+      margin: 1.8rem 0 0.9rem;
+    }
+
+    ul, ol {
+      padding-left: 1.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    li {
+      margin-bottom: 0.7rem;
+      font-size: 1.05rem;
+    }
+
+    .highlight {
+      background: rgba(59, 130, 246, 0.12);
+      padding: 1.2rem 1.5rem;
+      border-radius: 10px;
+      border-left: 4px solid var(--accent);
+      margin: 1.5rem 0;
+    }
+
+    .legal {
+      background: rgba(239, 68, 68, 0.12);
+      border-left-color: #ef4444;
+      color: #fca5a5;
+      padding: 1.3rem;
+      border-radius: 10px;
+      margin-top: 2rem;
+      font-size: 0.98rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.8rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.95rem;
+      opacity: 0.8;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: white;
+      padding: 0.6rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .lang-toggle {
+      position: absolute;
+      top: 1.5rem;
+      left: 2rem;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: white;
+      padding: 0.6rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+
+    .lang-toggle:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .demo-section {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .demo-button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .demo-button:hover {
+      background: var(--accent-dark);
+    }
+
+    #content-bn { display: block; }
+    #content-en { display: none; }
+
+    @media (max-width: 640px) {
+      header { padding: 2.8rem 1.5rem 2rem; }
+      main { padding: 2rem 1.5rem; }
+      header h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+
+  <div class="container">
+    <header>
+      <button class="theme-toggle" onclick="toggleTheme()">Light Mode</button>
+      <button class="lang-toggle" onclick="toggleLanguage()">English</button>
+      <h1>MD Saziat Rahman Himel</h1>
+      <div class="subtitle">Hacking Methodology</div>
+    </header>
+
+    <main id="content-bn">
+<section>
+  <h2>সারাংশ</h2>
+  <p>প্রত্যেক পেনিট্রেশন টেস্টার এবং ব্যক্তির নিজস্ব চিন্তাভাবনা, অভিজ্ঞতা এবং টেস্টিং অ্যাপ্রোচ থাকে। নিচে আমার ব্যক্তিগত সিকিউরিটি টেস্টিং মেথডোলজি এবং ওয়ে সংক্ষেপে দেখানো হলো — যা আমার প্র্যাকটিস, লার্নিং এবং রিয়েল-ওয়ার্ল্ড অভিজ্ঞতার উপর ভিত্তি করে তৈরি। এটা OWASP-এর মতো স্ট্যান্ডার্ডের সাথে মিল রেখে কাস্টমাইজ করা, কিন্তু আমার নিজস্ব ফ্লো এবং টুলসের উপর ফোকাস করে।</p>
+  <div class="highlight">
+    <strong>আমার প্রধান ফোকাস:</strong> OWASP (ওয়েব ও API সিকিউরিটি), PTES (স্ট্রাকচার্ড এক্সিকিউশন), NIST SP 800-115 (টেকনিক্যাল গাইডলাইন)
+  </div>
+</section>
+
+      <section>
+        <h2>ধাপসমূহ</h2>
+
+        <h3>১. লক্ষ্য নির্বাচন এবং স্ক্যানিং</h3>
+        <ul>
+          <li>স্কোপ নির্ধারণ ও লিখিত অনুমতি গ্রহণ</li>
+          <li>Nmap – পোর্ট স্ক্যান, সার্ভিস ও ভার্সন ডিটেকশন</li>
+          <li>Nessus – ভালনারেবিলিটি স্ক্যান</li>
+          <li>Acunetix – ওয়েব অ্যাপ্লিকেশন স্ক্যানিং</li>
+        </ul>
+
+        <h3>২. রিকনয়েসান্স ও গোপন রিসোর্স অনুসন্ধান</h3>
+        <ul>
+          <li>পাবলিক সোর্স ও স্ক্যান রেজাল্ট থেকে ইন্টেলিজেন্স সংগ্রহ</li>
+          <li>Dirbuster / Gobuster / FFuF – হিডেন ডিরেক্টরি ও ফাইল ব্রুটফোর্স</li>
+          <li>সেনসিটিভ ফাইল (PDF, config, backup ইত্যাদি) শনাক্তকরণ</li>
+        </ul>
+
+        <h3>৩. পোর্ট ও সার্ভিস এনুমারেশন</h3>
+        <ul>
+          <li>খোলা পোর্টের বিস্তারিত ফিঙ্গারপ্রিন্টিং</li>
+          <li>দুর্বল কনফিগারেশন, ডিফল্ট ক্রেডেনশিয়াল চেক</li>
+        </ul>
+
+        <h3>৪. ওয়েব অ্যাপ্লিকেশন টেস্টিং (OWASP Top 10)</h3>
+        <ul>
+          <li>ম্যানুয়াল টেস্টিং: XSS, SQLi, IDOR, Auth bypass ইত্যাদি</li>
+          <li>অটোমেটেড: Acunetix, Burp Suite, OWASP ZAP</li>
+          <li>প্রায়োরিটাইজেশন ও প্রুফ-অফ-কনসেপ্ট এক্সপ্লয়ট</li>
+        </ul>
+
+        <h3>৪.১ API পেনিট্রেশন টেস্টিং</h3>
+        <ul>
+          <li>OWASP API Security Top 10 চেক: Broken Object Level Authorization, Excessive Data Exposure ইত্যাদি</li>
+          <li>টুলস: Postman, Burp Suite দিয়ে API এন্ডপয়েন্ট টেস্টিং (রেট লিমিট, অথেনটিকেশন বাইপাস, ইনজেকশন)</li>
+          <li>ম্যানুয়াল এবং অটোমেটেড স্ক্যান: API কী, টোকেন, গ্রাফকিউএল/REST স্পেসিফিক ভালনারেবিলিটি</li>
+        </ul>
+
+        <h3>৫. এক্সপ্লয়টেশন ও অ্যাক্সেস গেইন</h3>
+        <ul>
+          <li>চিহ্নিত দুর্বলতা এক্সপ্লয়ট (Metasploit / কাস্টম PoC)</li>
+          <li>Exploit chaining ও pivoting</li>
+        </ul>
+
+        <h3>৬. পোস্ট-এক্সপ্লয়টেশন ও পার্সিস্টেন্স</h3>
+        <ul>
+          <li>ব্যাকডোর / scheduled tasks / credential dumping</li>
+          <li>ল্যাটারাল মুভমেন্ট ও ডোমেইন ডমিনেশন (যদি প্রযোজ্য হয়)</li>
+          <li>ব্যাকআপ অ্যাক্সেস পথ তৈরি</li>
+        </ul>
+      </section>
+
+      <section class="demo-section">
+        <h2>ডেমো</h2>
+        <p>এই মেথডোলজি ব্যবহার করে একটি ল্যাব সলভের উদাহরণ (প্রুফ অফ কনসেপ্ট সহ)।</p>
+        <button class="demo-button" onclick="window.open('https://github.com/Saziat12/CV', '_blank')">Check Demo</button>
+      </section>
+
+<p style="text-align: center; margin: 2rem 0; font-size: 0.95rem; opacity: 0.9;">
+  সম্পূর্ণ CV ফাইল ও ডিরেক্টরি ডাউনলোড করে দেখুন।<br>
+  আশা করি ভালো লাগবে।
+</p>
+
+      <div class="legal">
+        <strong>গুরুত্বপূর্ণ আইনি সতর্কতা:</strong><br>
+        এই মেথডোলজি শুধুমাত্র শিক্ষামূলক, ল্যাব প্র্যাকটিস বা অনুমোদিত পেনিট্রেশন টেস্টিংয়ের জন্য। কোনোভাবেই অনুমতি ছাড়া কোনো সিস্টেমে প্রয়োগ করা যাবে না — এটি অপরাধ।
+      </div>
+    </main>
+
+    <main id="content-en" style="display: none;">
+<section>
+  <h2>Summary</h2>
+  <p>Every penetration tester and individual has their own unique thinking, experience, and testing approach. Below is a short overview of my personal security testing methodology and way — built from my practice, learning, and real-world experience. It is customized while aligning with standards like OWASP, but focused on my own flow and tools.</p>
+  <div class="highlight">
+    <strong>My Core Focus:</strong> OWASP (Web & API Security), PTES (Structured Execution), NIST SP 800-115 (Technical Guidelines)
+  </div>
+</section>
+
+      <section>
+        <h2>Steps</h2>
+
+        <h3>1. Target Selection and Scanning</h3>
+        <ul>
+          <li>Scope determination and written permission acquisition</li>
+          <li>Nmap – Port scan, service and version detection</li>
+          <li>Nessus – Vulnerability scan</li>
+          <li>Acunetix – Web application scanning</li>
+        </ul>
+
+        <h3>2. Reconnaissance and Hidden Resource Discovery</h3>
+        <ul>
+          <li>Gather intelligence from public sources and scan results</li>
+          <li>Dirbuster / Gobuster / FFuF – Hidden directory and file brute-force</li>
+          <li>Sensitive file detection (PDF, config, backups, etc.)</li>
+        </ul>
+
+        <h3>3. Port and Service Enumeration</h3>
+        <ul>
+          <li>Detailed fingerprinting of open ports</li>
+          <li>Weak configuration and default credential checks</li>
+        </ul>
+
+        <h3>4. Web Application Testing (OWASP Top 10)</h3>
+        <ul>
+          <li>Manual testing: XSS, SQLi, IDOR, Auth bypass, etc.</li>
+          <li>Automated: Acunetix, Burp Suite, OWASP ZAP</li>
+          <li>Prioritization and proof-of-concept exploits</li>
+        </ul>
+
+        <h3>4.1 API Penetration Testing</h3>
+        <ul>
+          <li>OWASP API Security Top 10 checks: Broken Object Level Authorization, Excessive Data Exposure, etc.</li>
+          <li>Tools: Postman, Burp Suite for API endpoint testing (rate limiting, authentication bypass, injection)</li>
+          <li>Manual and automated scans: API keys, tokens, GraphQL/REST specific vulnerabilities</li>
+        </ul>
+
+        <h3>5. Exploitation and Access Gain</h3>
+        <ul>
+          <li>Exploit identified vulnerabilities (Metasploit / custom PoC)</li>
+          <li>Exploit chaining and pivoting</li>
+        </ul>
+
+        <h3>6. Post-Exploitation and Persistence</h3>
+        <ul>
+          <li>Backdoors / scheduled tasks / credential dumping</li>
+          <li>Lateral movement and domain domination (if applicable)</li>
+          <li>Backup access path creation</li>
+        </ul>
+      </section>
+
+      <section class="demo-section">
+        <h2>Demo</h2>
+        <p>An example of solving a lab using this methodology (with Proof of Concept).</p>
+        <button class="demo-button" onclick="window.open('https://github.com/Saziat12/CV', '_blank')">Check Demo</button>
+      </section>
+
+<p style="text-align: center; margin: 2rem 0; font-size: 0.95rem; opacity: 0.9;">
+  Feel free to download the full CV directory and explore.<br>
+  Hope you like it.
+</p>
+
+      <div class="legal">
+        <strong>Important Legal Warning:</strong><br>
+        This methodology is for educational, lab practice, or authorized penetration testing only. It must not be applied to any system without permission — this is a crime.
+      </div>
+    </main>
+
+    <footer>
+      © ২০২৬ MD Saziat Rahman Himel • Ethical Hacking Portfolio
+    </footer>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      const current = body.getAttribute('data-theme');
+      const btn = document.querySelector('.theme-toggle');
+      
+      if (current === 'dark') {
+        body.setAttribute('data-theme', 'light');
+        btn.textContent = 'Dark Mode';
+      } else {
+        body.setAttribute('data-theme', 'dark');
+        btn.textContent = 'Light Mode';
+      }
+    }
+
+    function toggleLanguage() {
+      const bnContent = document.getElementById('content-bn');
+      const enContent = document.getElementById('content-en');
+      const btn = document.querySelector('.lang-toggle');
+      
+      if (bnContent.style.display === 'block') {
+        bnContent.style.display = 'none';
+        enContent.style.display = 'block';
+        btn.textContent = 'বাংলা';
+      } else {
+        bnContent.style.display = 'block';
+        enContent.style.display = 'none';
+        btn.textContent = 'English';
+      }
+    }
+    
+    // Initial button texts
+    document.querySelector('.theme-toggle').textContent = 'Light Mode';
+    document.querySelector('.lang-toggle').textContent = 'English';
+  </script>
+</body>
+</html>
