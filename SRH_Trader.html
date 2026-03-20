@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRH Trader • $100 Challenge (PRO)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-cyan: #06b6d4; --accent-purple: #c026d3; }
+        body { font-family: 'Inter', sans-serif; background-color: #09090b; color: white; }
+        .glass { background: rgba(24, 24, 27, 0.75); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.1); }
+        .neon-glow { box-shadow: 0 0 25px -5px #06b6d4, 0 0 10px -5px #c026d3; }
+        .menu-active { background: linear-gradient(90deg, rgba(6, 182, 212, 0.15), rgba(192, 38, 211, 0.1)); border-left: 4px solid #06b6d4; color: #06b6d4; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .stat-card { transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .stat-card:hover { transform: scale(1.05); box-shadow: 0 0 30px -10px #06b6d4; }
+        .shine-btn { position: relative; overflow: hidden; }
+        .shine-btn::before { content: ''; position: absolute; top: -50%; left: -100%; width: 50%; height: 300%; background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent); transform: skewX(-25deg); animation: shine 4s infinite; }
+        @keyframes shine { 0% { left: -100%; } 20% { left: 120%; } 100% { left: 120%; } }
+        .trade-badge { font-size: 10px; padding: 2px 8px; border-radius: 9999px; font-weight: 700; text-transform: uppercase; }
+        .cyan-gradient { background: linear-gradient(90deg, #06b6d4, #c026d3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        input[type="range"] { height: 6px; border-radius: 10px; background: #27272a; accent-color: #06b6d4; cursor: pointer; }
+        .equity-number { font-variant-numeric: tabular-nums; }
+    </style>
+</head>
+<body class="overflow-hidden">
+    <div class="flex h-screen">
+        <!-- SIDEBAR -->
+        <div class="w-72 bg-zinc-900 border-r border-white/10 flex flex-col">
+            <div class="p-8 border-b border-white/10 flex items-center gap-4">
+                <div onclick="window.location.reload()" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#06b6d4] to-[#c026d3] flex items-center justify-center text-3xl font-black neon-glow cursor-pointer">S</div>
+                <div>
+                    <h1 class="text-2xl font-bold tracking-tighter" style="font-family: 'Space Grotesk', sans-serif;">SRH Trader</h1>
+                    <div class="flex items-center gap-2 text-[9px] text-cyan-300 tracking-widest uppercase">
+                        <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
+                        $100 Challenge
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex-1 px-4 py-8">
+                <nav class="space-y-1">
+                    <div onclick="switchTab(0)" id="menu-0" class="menu-item menu-active flex items-center gap-3 px-6 py-4 rounded-2xl text-sm font-medium cursor-pointer transition-all">
+                        <i class="fa-solid fa-chart-line w-5"></i><span>Dashboard</span>
+                    </div>
+                    <div onclick="switchTab(1)" id="menu-1" class="menu-item flex items-center gap-3 px-6 py-4 rounded-2xl text-sm font-medium cursor-pointer transition-all">
+                        <i class="fa-solid fa-plus w-5"></i><span>Add Trade</span>
+                    </div>
+                    <div onclick="switchTab(2)" id="menu-2" class="menu-item flex items-center gap-3 px-6 py-4 rounded-2xl text-sm font-medium cursor-pointer transition-all">
+                        <i class="fa-solid fa-list-ul w-5"></i><span>Trade Journal</span>
+                    </div>
+                    <div onclick="switchTab(3)" id="menu-3" class="menu-item flex items-center gap-3 px-6 py-4 rounded-2xl text-sm font-medium cursor-pointer transition-all">
+                        <i class="fa-solid fa-chart-pie w-5"></i><span>Analytics</span>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="p-6 border-t border-white/10 space-y-3">
+                <button onclick="refreshData()" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-600 to-purple-600 py-3 rounded-xl text-xs font-semibold shine-btn">
+                    <i class="fa-solid fa-sync"></i><span>Sync Sheet</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="flex-1 flex flex-col bg-zinc-950">
+            <header class="h-16 border-b border-white/5 px-8 flex items-center justify-between glass z-10">
+                <h2 id="page-title" class="text-xl font-bold cyan-gradient">Dashboard</h2>
+                <div class="flex items-center gap-6">
+                    <div class="text-right">
+                        <div class="text-[9px] text-zinc-500 font-bold tracking-widest uppercase">Live Equity</div>
+                        <div class="flex items-baseline gap-1">
+                            <span id="live-equity" class="text-3xl font-black text-[#06b6d4] tabular-nums">100.00</span>
+                            <span class="text-[10px] text-zinc-500 font-bold">USDT</span>
+                        </div>
+                    </div>
+                    <div class="h-8 w-px bg-white/10"></div>
+                    <div class="flex items-center gap-3 bg-zinc-900/50 px-4 py-2 rounded-xl border border-white/5">
+                        <i class="fa-solid fa-bolt text-yellow-400 text-xs"></i>
+                        <span id="trade-count-badge" class="text-xs font-bold text-zinc-300">0 Trades</span>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-auto p-8 relative">
+                <!-- Dashboard -->
+                <div id="tab-0" class="tab-content active space-y-8">
+                    <div class="mb-6">
+                        <h2 class="text-4xl font-bold tracking-tighter">Good Luck, SRH_ 👾</h2>
+                        <p class="text-zinc-500 text-sm mt-1">Your $100 futures challenge is cooking 🔥</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4" id="stat-row-top"></div>
+                    
+                    <div class="glass rounded-3xl p-6 relative overflow-hidden">
+                        <div class="flex justify-between items-center mb-6">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-chart-area text-cyan-400"></i>
+                                <span class="text-sm font-bold tracking-tight">EQUITY GROWTH CURVE</span>
+                            </div>
+                            <span id="growth-percentage" class="text-xs font-bold px-3 py-1 bg-emerald-500/10 text-emerald-400 rounded-full">+0.00%</span>
+                        </div>
+                        <div class="h-[350px]"><canvas id="equityChart"></canvas></div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" id="stat-row-bottom"></div>
+                </div>
+
+                <!-- Add Trade -->
+                <div id="tab-1" class="tab-content max-w-2xl mx-auto">
+                    <div class="glass rounded-3xl p-8 shadow-2xl border-cyan-500/20">
+                        <div class="flex justify-between items-center mb-8">
+                            <h3 class="text-2xl font-bold tracking-tighter">Enter New Trade</h3>
+                            <span class="text-[10px] bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full font-bold uppercase tracking-widest">Binance Futures</span>
+                        </div>
+                        <form id="tradeForm" onsubmit="handleSaveTrade(event)" class="space-y-6">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-2">
+                                    <label class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest ml-1">Pair / Symbol</label>
+                                    <input id="coin" type="text" placeholder="BTCUSDT" oninput="this.value = this.value.toUpperCase()" class="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-3 text-lg font-mono outline-none focus:border-cyan-500 transition-all" required>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest ml-1">Direction</label>
+                                    <div class="flex bg-zinc-900 p-1 rounded-xl border border-white/10">
+                                        <button type="button" onclick="setDirection('LONG')" id="dir-long" class="flex-1 py-2 rounded-lg text-xs font-bold transition-all bg-emerald-500/20 text-emerald-400">LONG</button>
+                                        <button type="button" onclick="setDirection('SHORT')" id="dir-short" class="flex-1 py-2 rounded-lg text-xs font-bold transition-all text-zinc-500">SHORT</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <input id="entryPrice" type="number" step="any" placeholder="Entry Price" class="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-3 font-mono outline-none focus:border-cyan-500" required>
+                                <input id="exitPrice" type="number" step="any" placeholder="Exit Price" class="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-3 font-mono outline-none focus:border-cyan-500" required>
+                            </div>
+
+                            <div class="space-y-4 bg-zinc-900/50 p-6 rounded-2xl border border-white/5">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Leverage</span>
+                                    <span id="levDisplay" class="text-xl font-black text-cyan-400">5x</span>
+                                </div>
+                                <input id="leverage" type="range" min="1" max="10" value="5" oninput="updateLeverage(this.value)" class="w-full">
+                                
+                                <div class="flex justify-between items-center pt-2">
+                                    <span class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Margin (USDT)</span>
+                                    <input id="margin" type="number" value="40" class="bg-transparent text-right font-mono text-xl text-white outline-none w-20">
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl border border-dashed border-white/10 bg-emerald-400/5 flex justify-between items-center">
+                                <span class="text-xs font-bold text-zinc-400">Expected Profit/Loss</span>
+                                <span id="estPNLValue" class="text-xl font-black text-emerald-400">+$0.00</span>
+                            </div>
+
+                            <button type="submit" class="w-full py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-xl font-black text-sm tracking-widest uppercase shine-btn">
+                                Save Trade to Cloud
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Trade Journal -->
+                <div id="tab-2" class="tab-content">
+                    <div class="mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div class="relative flex-1 w-full max-w-md">
+                            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 text-sm"></i>
+                            <input id="journalSearch" type="text" placeholder="Search by Coin (e.g. BTC)..." oninput="filterJournal()" class="w-full bg-zinc-900 border border-white/10 rounded-2xl py-3 pl-12 pr-4 text-sm outline-none focus:border-cyan-500 transition-all">
+                        </div>
+                        <div id="journalCount" class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">0 Trades Found</div>
+                    </div>
+                    <div class="glass rounded-3xl overflow-hidden border-white/5">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-white/5">
+                                <tr class="text-[10px] text-zinc-500 font-bold tracking-widest uppercase">
+                                    <th class="p-5">Date</th>
+                                    <th class="p-5">Asset</th>
+                                    <th class="p-5">Side</th>
+                                    <th class="p-5">Entry/Exit</th>
+                                    <th class="p-5 text-center">Lev</th>
+                                    <th class="p-5 text-right">P&L ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="journalBody" class="divide-y divide-white/5"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Analytics -->
+                <div id="tab-3" class="tab-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="glass rounded-3xl p-6">
+                            <h4 class="text-sm font-bold mb-6 text-zinc-400 uppercase tracking-widest">Win/Loss Distribution</h4>
+                            <div class="h-64 flex justify-center"><canvas id="winLossChart"></canvas></div>
+                        </div>
+                        <div class="glass rounded-3xl p-6">
+                            <h4 class="text-sm font-bold mb-6 text-zinc-400 uppercase tracking-widest">Daily Performance</h4>
+                            <div class="h-64"><canvas id="dailyChart"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION -->
+    <div id="toast" class="fixed bottom-8 right-8 px-6 py-4 rounded-2xl glass border-cyan-500/50 text-cyan-400 font-bold text-sm hidden z-[100] shadow-2xl">
+        <i class="fa-solid fa-circle-check mr-2"></i> <span id="toastMsg">Action Successful</span>
+    </div>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5LyM_HjzA0nUziGP38LP2koAK3CUextzGao5JCc72mF-nt-nULhVJFV7woj4Xi0VU/exec";
+
+        let trades = [];
+        let charts = { equity: null, winLoss: null, daily: null };
+        let currentDirection = 'LONG';
+
+        function notify(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            t.classList.remove('hidden');
+            setTimeout(() => t.classList.add('hidden'), 3000);
+        }
+
+        function setDirection(dir) {
+            currentDirection = dir;
+            const l = document.getElementById('dir-long');
+            const s = document.getElementById('dir-short');
+            if(dir === 'LONG') {
+                l.className = "flex-1 py-2 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-400";
+                s.className = "flex-1 py-2 rounded-lg text-xs font-bold text-zinc-500";
+            } else {
+                s.className = "flex-1 py-2 rounded-lg text-xs font-bold bg-red-500/20 text-red-400";
+                l.className = "flex-1 py-2 rounded-lg text-xs font-bold text-zinc-500";
+            }
+            calcPreview();
+        }
+
+        function updateLeverage(val) {
+            document.getElementById('levDisplay').innerText = val + 'x';
+            calcPreview();
+        }
+
+        function calcPreview() {
+            const entry = parseFloat(document.getElementById('entryPrice').value) || 0;
+            const exit = parseFloat(document.getElementById('exitPrice').value) || 0;
+            const lev = parseFloat(document.getElementById('leverage').value);
+            const marg = parseFloat(document.getElementById('margin').value) || 0;
+            if(entry === 0 || exit === 0) return;
+            const qty = (marg * lev) / entry;
+            let profit = currentDirection === 'LONG' ? (exit - entry) * qty : (entry - exit) * qty;
+            const fees = (marg * lev) * 0.0005 * 2;
+            const net = (profit - fees).toFixed(2);
+            const el = document.getElementById('estPNLValue');
+            el.innerText = (net >= 0 ? '+$' : '-$') + Math.abs(net);
+            el.className = `text-xl font-black ${net >= 0 ? 'text-emerald-400' : 'text-red-400'}`;
+        }
+
+        async function loadData() {
+            try {
+                const res = await fetch(SCRIPT_URL);
+                const data = await res.json();
+                trades = data.slice(1).map(r => ({
+                    date: new Date(r[0]),
+                    coin: (r[1] || "").toString().toUpperCase(),
+                    dir: r[2],
+                    entry: parseFloat(r[3]) || 0,
+                    exit: parseFloat(r[4]) || 0,
+                    lev: parseInt(r[5]) || 0,
+                    margin: parseFloat(r[6]) || 0,
+                    pnl: parseFloat(r[7]) || 0
+                })).sort((a, b) => a.date - b.date);
+                renderAll();
+            } catch (err) {
+                console.error(err);
+                notify("Cloud Sync Failed");
+            }
+        }
+
+        function calculateStats() {
+            if(!trades.length) return { winRate: 0, streak: 0, totalPnl: 0, count: 0, growth: 0 };
+            const count = trades.length;
+            const wins = trades.filter(t => t.pnl > 0).length;
+            const totalPnl = trades.reduce((a, b) => a + b.pnl, 0);
+            let streak = 0;
+            for(let i = trades.length - 1; i >= 0; i--) {
+                if(trades[i].pnl > 0) streak++; else break;
+            }
+            return { winRate: ((wins / count) * 100).toFixed(0), streak, totalPnl, count, growth: (totalPnl / 100 * 100).toFixed(1) };
+        }
+
+        function renderAll() {
+            const stats = calculateStats();
+            document.getElementById('live-equity').innerText = (100 + stats.totalPnl).toFixed(2);
+            document.getElementById('trade-count-badge').innerText = stats.count + " Trades";
+            document.getElementById('growth-percentage').innerText = (stats.totalPnl >= 0 ? '+' : '') + stats.growth + '%';
+
+            document.getElementById('stat-row-top').innerHTML = `
+                <div class="glass p-5 rounded-2xl"><div class="text-[9px] font-bold text-zinc-500 uppercase">Win Rate</div><div class="text-3xl font-black text-emerald-400">${stats.winRate}%</div></div>
+                <div class="glass p-5 rounded-2xl"><div class="text-[9px] font-bold text-zinc-500 uppercase">Current Streak</div><div class="text-3xl font-black text-cyan-400">${stats.streak} 🔥</div></div>
+                <div class="glass p-5 rounded-2xl"><div class="text-[9px] font-bold text-zinc-500 uppercase">Total Net P&L</div><div class="text-3xl font-black ${stats.totalPnl >= 0 ? 'text-emerald-400' : 'text-red-400'}">$${stats.totalPnl.toFixed(2)}</div></div>
+                <div class="glass p-5 rounded-2xl"><div class="text-[9px] font-bold text-zinc-500 uppercase">Avg Profit</div><div class="text-3xl font-black">$${(stats.totalPnl/stats.count || 0).toFixed(2)}</div></div>
+                <div class="glass p-5 rounded-2xl"><div class="text-[9px] font-bold text-zinc-500 uppercase">Trades</div><div class="text-3xl font-black text-white">${stats.count}</div></div>
+            `;
+            
+            const pnls = trades.map(t => t.pnl);
+            document.getElementById('stat-row-bottom').innerHTML = `
+                <div class="glass stat-card rounded-2xl p-6 text-center"><div class="text-xs text-zinc-400 font-bold uppercase">Max Win</div><div class="text-3xl font-bold mt-2 text-emerald-400">+$${Math.max(...pnls, 0).toFixed(2)}</div></div>
+                <div class="glass stat-card rounded-2xl p-6 text-center"><div class="text-xs text-zinc-400 font-bold uppercase">Max Loss</div><div class="text-3xl font-bold mt-2 text-red-400">-$${Math.abs(Math.min(...pnls, 0)).toFixed(2)}</div></div>
+                <div class="glass stat-card rounded-2xl p-6 text-center"><div class="text-xs text-zinc-400 font-bold uppercase">Net Yield</div><div class="text-3xl font-bold mt-2 text-cyan-400">${stats.growth}%</div></div>
+                <div class="glass stat-card rounded-2xl p-6 text-center"><div class="text-xs text-zinc-400 font-bold uppercase">Efficiency</div><div class="text-3xl font-bold mt-2 text-white">${stats.winRate}%</div></div>
+            `;
+
+            renderJournal();
+            updateCharts();
+        }
+
+        function renderJournal(data = null) {
+            const source = data || [...trades].reverse();
+            document.getElementById('journalCount').innerText = `${source.length} TRADES FOUND`;
+            document.getElementById('journalBody').innerHTML = source.map(t => `
+                <tr class="hover:bg-white/5 border-b border-white/5">
+                    <td class="p-5 text-xs text-zinc-500 font-mono">${t.date.toLocaleDateString()}</td>
+                    <td class="p-5 font-bold">${t.coin}</td>
+                    <td class="p-5"><span class="trade-badge ${t.dir === 'LONG' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'}">${t.dir}</span></td>
+                    <td class="p-5 text-xs font-mono text-zinc-500">${t.entry} → ${t.exit}</td>
+                    <td class="p-5 text-center font-bold text-cyan-500">${t.lev}x</td>
+                    <td class="p-5 text-right font-black ${t.pnl >= 0 ? 'text-emerald-400' : 'text-red-400'}">${t.pnl.toFixed(2)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function filterJournal() {
+            const term = document.getElementById('journalSearch').value.toUpperCase().trim();
+            const filtered = trades.filter(t => t.coin.includes(term)).reverse();
+            renderJournal(filtered);
+        }
+
+        function updateCharts() {
+            // Equity
+            const ctxE = document.getElementById('equityChart').getContext('2d');
+            if(charts.equity) charts.equity.destroy();
+            let b = 100;
+            charts.equity = new Chart(ctxE, {
+                type: 'line',
+                data: {
+                    labels: trades.map(t => t.date.toLocaleDateString()),
+                    datasets: [{ data: trades.map(t => { b += t.pnl; return b.toFixed(2); }), borderColor: '#06b6d4', backgroundColor: 'rgba(6, 182, 212, 0.1)', fill: true, tension: 0.4, borderWidth: 3 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { grid: { color: 'rgba(255,255,255,0.05)' } } } }
+            });
+
+            // Win Loss
+            const ctxW = document.getElementById('winLossChart');
+            if(charts.winLoss) charts.winLoss.destroy();
+            const w = trades.filter(t => t.pnl > 0).length, l = trades.length - w;
+            charts.winLoss = new Chart(ctxW, {
+                type: 'doughnut',
+                data: { labels: ['Wins', 'Losses'], datasets: [{ data: [w, l], backgroundColor: ['#10b981', '#ef4444'], borderWidth: 0 }] },
+                options: { cutout: '80%', plugins: { legend: { position: 'bottom', labels: { color: '#888' } } } }
+            });
+
+            // Daily P&L
+            const ctxD = document.getElementById('dailyChart').getContext('2d');
+            if(charts.daily) charts.daily.destroy();
+            const dailyData = {};
+            trades.forEach(t => {
+                const d = t.date.toISOString().split('T')[0];
+                dailyData[d] = (dailyData[d] || 0) + t.pnl;
+            });
+            const sortedDates = Object.keys(dailyData).sort();
+            charts.daily = new Chart(ctxD, {
+                type: 'bar',
+                data: {
+                    labels: sortedDates.map(ld => new Date(ld).toLocaleDateString(undefined, {month:'short', day:'numeric'})),
+                    datasets: [{ 
+                        data: sortedDates.map(ld => dailyData[ld].toFixed(2)), 
+                        backgroundColor: sortedDates.map(ld => dailyData[ld] >= 0 ? '#10b981' : '#ef4444'), 
+                        borderRadius: 5 
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' } } } }
+            });
+        }
+
+        async function handleSaveTrade(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.innerText = "Syncing..."; btn.disabled = true;
+            const entry = parseFloat(document.getElementById('entryPrice').value);
+            const exit = parseFloat(document.getElementById('exitPrice').value);
+            const lev = parseInt(document.getElementById('leverage').value);
+            const marg = parseFloat(document.getElementById('margin').value);
+            const qty = (marg * lev) / entry;
+            let pnl = currentDirection === 'LONG' ? (exit - entry) * qty : (entry - exit) * qty;
+            const net = parseFloat((pnl - (marg * lev * 0.001)).toFixed(2));
+            const data = { date: new Date().toISOString(), coin: document.getElementById('coin').value.toUpperCase(), direction: currentDirection, entryPrice: entry, exitPrice: exit, leverage: lev, margin: marg, netPNL: net, durationHours: 0 };
+            try {
+                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
+                notify("Trade Saved Successfully!"); e.target.reset();
+                document.getElementById('levDisplay').innerText = '5x';
+                setTimeout(loadData, 1000);
+            } catch (err) { notify("Save Failed"); }
+            finally { btn.innerText = "Save Trade to Cloud"; btn.disabled = false; }
+        }
+
+        function switchTab(idx) {
+            document.querySelectorAll('.menu-item').forEach((m, i) => m.classList.toggle('menu-active', i === idx));
+            document.querySelectorAll('.tab-content').forEach((t, i) => t.classList.toggle('active', i === idx));
+            document.getElementById('page-title').innerText = ["Dashboard", "New Execution", "Trade History", "Statistical Analysis"][idx];
+            if (idx === 0 || idx === 3) setTimeout(updateCharts, 100);
+        }
+
+        function refreshData() { notify("Syncing with Sheet..."); loadData(); }
+
+        window.onload = () => {
+            loadData();
+            ['entryPrice', 'exitPrice', 'margin'].forEach(id => document.getElementById(id).addEventListener('input', calcPreview));
+        };
+    </script>
+</body>
+</html>
