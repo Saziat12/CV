@@ -26,6 +26,168 @@
         .cyan-gradient { background: linear-gradient(90deg, #06b6d4, #c026d3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         input[type="range"] { height: 6px; border-radius: 10px; background: #27272a; accent-color: #06b6d4; cursor: pointer; }
         .equity-number { font-variant-numeric: tabular-nums; }
+
+        /* ==================== CHECKLIST STYLES (scoped safely - removed universal * reset) ==================== */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        .checklist-container {
+            max-width: 880px;
+            margin: 0 auto;
+            background: #1e2937;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        .checklist-header {
+            background: linear-gradient(90deg, #1e40af, #60a5fa);
+            padding: 32px 25px;
+            text-align: center;
+            color: white;
+        }
+        .checklist-header h1 {
+            font-size: 27px;
+            font-weight: 700;
+        }
+        .checklist-header p {
+            font-size: 15.5px;
+            opacity: 0.95;
+            margin-top: 8px;
+        }
+        .progress-container {
+            padding: 20px 25px 10px;
+            background: #334155;
+        }
+        .progress-text {
+            text-align: center;
+            font-size: 15px;
+            margin-bottom: 8px;
+            color: #94a3b8;
+        }
+        .progress-bar {
+            height: 10px;
+            background: #475569;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #22c55e, #86efac);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+        .section {
+            padding: 28px 25px;
+            border-bottom: 1px solid #334155;
+        }
+        .section-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: #60a5fa;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 16px 18px;
+            margin-bottom: 10px;
+            background: #334155;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .checklist-item:hover {
+            background: #475569;
+            transform: translateX(6px);
+        }
+        .checklist-item.completed {
+            background: #1f2937;
+            opacity: 0.9;
+        }
+        .checklist-item.completed .item-text {
+            text-decoration: line-through;
+            color: #94a3b8;
+        }
+        input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            accent-color: #22c55e;
+            cursor: pointer;
+            margin-top: 2px;
+        }
+        .item-text {
+            flex: 1;
+            font-size: 16px;
+            line-height: 1.55;
+        }
+        .final-section {
+            padding: 35px 25px;
+            text-align: center;
+            background: #0f172a;
+        }
+        .enter-btn {
+            background: linear-gradient(90deg, #22c55e, #4ade80);
+            color: #0f172a;
+            font-size: 19px;
+            font-weight: 700;
+            padding: 18px 50px;
+            border: none;
+            border-radius: 9999px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
+            transition: all 0.3s;
+        }
+        .enter-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            box-shadow: 0 15px 30px rgba(34, 197, 94, 0.5);
+        }
+        .enter-btn:disabled {
+            background: #475569;
+            color: #94a3b8;
+            cursor: not-allowed;
+        }
+        .popup-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, #15803d, #4ade80);
+            color: #0f172a;
+            padding: 25px 30px;
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            z-index: 9999;
+            flex-wrap: wrap;
+        }
+        .popup-banner.show {
+            display: flex;
+        }
+        .popup-banner button {
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .reminder-box {
+            background: #334155;
+            border-left: 6px solid #eab308;
+            padding: 20px 25px;
+            margin: 25px 25px 10px;
+            border-radius: 12px;
+            font-size: 15px;
+            line-height: 1.7;
+        }
     </style>
 </head>
 <body class="overflow-hidden">
@@ -42,7 +204,7 @@
                     </div>
                 </div>
             </div>
-            
+           
             <div class="flex-1 px-4 py-8">
                 <nav class="space-y-1">
                     <div onclick="switchTab(0)" id="menu-0" class="menu-item menu-active flex items-center gap-3 px-6 py-4 rounded-2xl text-sm font-medium cursor-pointer transition-all">
@@ -57,16 +219,18 @@
                     <div onclick="switchTab(3)" id="menu-3" class="menu-item flex items-center gap-3 px-6 py-4 rounded-2xl text-sm font-medium cursor-pointer transition-all">
                         <i class="fa-solid fa-chart-pie w-5"></i><span>Analytics</span>
                     </div>
+                    <!-- NEW CHECKLIST MENU ITEM -->
+                    <div onclick="switchTab(4)" id="menu-4" class="menu-item flex items-center gap-3 px-6 py-4 rounded-2xl text-sm font-medium cursor-pointer transition-all">
+                        <i class="fa-solid fa-clipboard-check w-5"></i><span>Checklist</span>
+                    </div>
                 </nav>
             </div>
-
             <div class="p-6 border-t border-white/10 space-y-3">
                 <button onclick="refreshData()" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-600 to-purple-600 py-3 rounded-xl text-xs font-semibold shine-btn">
                     <i class="fa-solid fa-sync"></i><span>Sync Sheet</span>
                 </button>
             </div>
         </div>
-
         <!-- MAIN CONTENT -->
         <div class="flex-1 flex flex-col bg-zinc-950">
             <header class="h-16 border-b border-white/5 px-8 flex items-center justify-between glass z-10">
@@ -86,7 +250,6 @@
                     </div>
                 </div>
             </header>
-
             <main class="flex-1 overflow-auto p-8 relative">
                 <!-- Dashboard -->
                 <div id="tab-0" class="tab-content active space-y-8">
@@ -94,9 +257,8 @@
                         <h2 class="text-4xl font-bold tracking-tighter">Good Luck, SRH_ 👾</h2>
                         <p class="text-zinc-500 text-sm mt-1">Your $100 futures challenge is cooking 🔥</p>
                     </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4" id="stat-row-top"></div>
-                    
+                   
                     <div class="glass rounded-3xl p-6 relative overflow-hidden">
                         <div class="flex justify-between items-center mb-6">
                             <div class="flex items-center gap-2">
@@ -107,11 +269,10 @@
                         </div>
                         <div class="h-[350px]"><canvas id="equityChart"></canvas></div>
                     </div>
-
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" id="stat-row-bottom"></div>
                 </div>
 
-                <!-- Add Trade -->
+                <!-- Add Trade (NEW: Trade Basis option added) -->
                 <div id="tab-1" class="tab-content max-w-2xl mx-auto">
                     <div class="glass rounded-3xl p-8 shadow-2xl border-cyan-500/20">
                         <div class="flex justify-between items-center mb-8">
@@ -133,9 +294,23 @@
                                 </div>
                             </div>
 
+                            <!-- NEW TRADE BASIS OPTION (exactly as you asked - like Long/Short) -->
+                            <div class="space-y-2">
+                                <label class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest ml-1">Trade Basis</label>
+                                <div class="flex bg-zinc-900 p-1 rounded-xl border border-white/10">
+                                    <button type="button" onclick="setMethod('Follow Checklist')" id="method-checklist" class="flex-1 py-3 rounded-lg text-sm font-medium transition-all">📋 Follow Checklist</button>
+                                    <button type="button" onclick="setMethod('Indicator base')" id="method-indicator" class="flex-1 py-3 rounded-lg text-sm font-medium transition-all bg-blue-500/20 text-blue-400">📊 Indicator base</button>
+                                    <button type="button" onclick="setMethod('Both')" id="method-both" class="flex-1 py-3 rounded-lg text-sm font-medium transition-all">🔄 Both</button>
+                                </div>
+                            </div>
+
                             <div class="grid grid-cols-2 gap-4">
                                 <input id="entryPrice" type="number" step="any" placeholder="Entry Price" class="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-3 font-mono outline-none focus:border-cyan-500" required>
                                 <input id="exitPrice" type="number" step="any" placeholder="Exit Price" class="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-3 font-mono outline-none focus:border-cyan-500" required>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <input id="stopLoss" type="number" step="any" placeholder="Stop Loss (SL)" class="w-full bg-zinc-900 border border-red-500/30 rounded-xl px-4 py-3 font-mono focus:border-red-500">
                             </div>
 
                             <div class="space-y-4 bg-zinc-900/50 p-6 rounded-2xl border border-white/5">
@@ -144,7 +319,7 @@
                                     <span id="levDisplay" class="text-xl font-black text-cyan-400">5x</span>
                                 </div>
                                 <input id="leverage" type="range" min="1" max="10" value="5" oninput="updateLeverage(this.value)" class="w-full">
-                                
+                               
                                 <div class="flex justify-between items-center pt-2">
                                     <span class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Margin (USDT)</span>
                                     <input id="margin" type="number" value="40" class="bg-transparent text-right font-mono text-xl text-white outline-none w-20">
@@ -154,6 +329,14 @@
                             <div class="p-4 rounded-xl border border-dashed border-white/10 bg-emerald-400/5 flex justify-between items-center">
                                 <span class="text-xs font-bold text-zinc-400">Expected Profit/Loss</span>
                                 <span id="estPNLValue" class="text-xl font-black text-emerald-400">+$0.00</span>
+                            </div>
+                            <div class="p-4 rounded-xl border border-dashed border-red-500/20 bg-red-400/5 flex justify-between items-center">
+                                <span class="text-xs font-bold text-zinc-400">Risk if SL Hit</span>
+                                <span id="riskValue" class="text-xl font-black text-red-400">-$0.00</span>
+                            </div>
+                            <div class="p-4 rounded-xl border border-dashed border-cyan-500/20 bg-cyan-400/5 flex justify-between items-center">
+                                <span class="text-xs font-bold text-zinc-400">Risk : Reward</span>
+                                <span id="rrValue" class="text-xl font-black text-cyan-400">1 : 0</span>
                             </div>
 
                             <button type="submit" class="w-full py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-xl font-black text-sm tracking-widest uppercase shine-btn">
@@ -179,6 +362,7 @@
                                     <th class="p-5">Date</th>
                                     <th class="p-5">Asset</th>
                                     <th class="p-5">Side</th>
+                                    <th class="p-5">Basis</th> <!-- NEW COLUMN -->
                                     <th class="p-5">Entry/Exit</th>
                                     <th class="p-5 text-center">Lev</th>
                                     <th class="p-5 text-right">P&L ($)</th>
@@ -189,9 +373,9 @@
                     </div>
                 </div>
 
-                <!-- Analytics -->
+                <!-- Analytics (NEW chart + 3-column grid) -->
                 <div id="tab-3" class="tab-content">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <div class="glass rounded-3xl p-6">
                             <h4 class="text-sm font-bold mb-6 text-zinc-400 uppercase tracking-widest">Win/Loss Distribution</h4>
                             <div class="h-64 flex justify-center"><canvas id="winLossChart"></canvas></div>
@@ -199,6 +383,67 @@
                         <div class="glass rounded-3xl p-6">
                             <h4 class="text-sm font-bold mb-6 text-zinc-400 uppercase tracking-widest">Daily Performance</h4>
                             <div class="h-64"><canvas id="dailyChart"></canvas></div>
+                        </div>
+                        <!-- NEW CHART: Trade Basis (Checklist / Indicator / Both) -->
+                        <div class="glass rounded-3xl p-6">
+                            <h4 class="text-sm font-bold mb-6 text-zinc-400 uppercase tracking-widest">Trade Basis Distribution</h4>
+                            <div class="h-64 flex justify-center"><canvas id="methodChart"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CHECKLIST TAB (full embedded page) -->
+                <div id="tab-4" class="tab-content p-8 bg-zinc-950">
+                    <div class="checklist-container">
+                        <div class="checklist-header">
+                            <h1>🚀 Lite-SRH Master Pro Checklist</h1>
+                            <p>1m / 3m Scalping • High Probability Setup</p>
+                        </div>
+                        <!-- Progress -->
+                        <div class="progress-container">
+                            <div class="progress-text" id="progressText">0% Complete (0/11)</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                        </div>
+                        <!-- 1. HTF Bias -->
+                        <div class="section">
+                            <div class="section-title">🌐 1. HTF Bias (4H Timeframe)</div>
+                            <div class="checklist-item"><input type="checkbox" id="chk1"><label for="chk1" class="item-text">Pro 4H Trend চেক করো (Higher Timeframe Bias)</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk2"><label for="chk2" class="item-text">Buy in 4H Discount / Sell in 4H Premium</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk3"><label for="chk3" class="item-text">Define 4H POI (S&D Zones, Flip Zones, Order Blocks that caused BOS or MS)</label></div>
+                        </div>
+                        <!-- 2. LTF Execution -->
+                        <div class="section">
+                            <div class="section-title">🔍 2. LTF Execution (15m)</div>
+                            <div class="checklist-item"><input type="checkbox" id="chk4"><label for="chk4" class="item-text">4H POI Mitigation হয়েছে</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk5"><label for="chk5" class="item-text">15m LQ Sweep (V Shape Reaction)</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk6"><label for="chk6" class="item-text">Market Shift দেখা গেছে</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk7"><label for="chk7" class="item-text">Entry limit order POI এর edge-এ, SL zone এর পিছনে</label></div>
+                        </div>
+                        <!-- 3. Lite-SRH Master Indicator -->
+                        <div class="section">
+                            <div class="section-title">📊 3. Lite-SRH Master Indicator (1m/3m)</div>
+                            <div class="checklist-item"><input type="checkbox" id="chk8"><label for="chk8" class="item-text">🚀 ENTER LONG / 🔻 ENTER SHORT লেবেল দেখা গেছে</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk9"><label for="chk9" class="item-text">🤖 AI Confidant ≥ ৯০%</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk10"><label for="chk10" class="item-text">Price EMA 200 এর উপরে (Long) অথবা নিচে (Short)</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk11"><label for="chk11" class="item-text">Session ভালো → Table-এ ✔ বা ✔✔</label></div>
+                        </div>
+                        <!-- Reminders -->
+                        <div class="section">
+                            <div class="section-title">💡 Reminders (প্রতি সেশনের আগে পড়ো)</div>
+                            <div class="reminder-box">
+                                <p>“The hard trade is the right trade. If it is easy to sell, don't; if it is easy to buy, don't.”</p>
+                                <p>“Amateurs think about how much they can make. Professionals think about how much they could lose.”</p>
+                                <p>“Be patient with winning trades & impatient with losing trades.”</p>
+                                <p>“Do more of that which is working and less of that which is not.”</p>
+                            </div>
+                        </div>
+                        <!-- Final Button -->
+                        <div class="final-section">
+                            <button class="enter-btn" id="enterBtn" disabled>
+                                🎯 সব চেক সম্পূর্ণ — NOW ENTER THE TRADE
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -211,12 +456,19 @@
         <i class="fa-solid fa-circle-check mr-2"></i> <span id="toastMsg">Action Successful</span>
     </div>
 
-    <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5LyM_HjzA0nUziGP38LP2koAK3CUextzGao5JCc72mF-nt-nULhVJFV7woj4Xi0VU/exec";
+    <!-- CHECKLIST POPUP BANNER (moved outside for global z-index) -->
+    <div class="popup-banner" id="popupBanner">
+        🚀 A+ SETUP READY!<br>
+        NOW ENTER THE TRADE — DISCIPLINE IS KEY
+        <button onclick="closePopup()">✕ বন্ধ করো</button>
+    </div>
 
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyHTx5fvIqRgs8Hnd-oLbKt7SV2p7EZqNW7Q3VC5g523uEDgtmardNcTIHdPa2xS1nB/exec";
         let trades = [];
-        let charts = { equity: null, winLoss: null, daily: null };
+        let charts = { equity: null, winLoss: null, daily: null, method: null };
         let currentDirection = 'LONG';
+        let currentMethod = 'Indicator base'; // NEW global for basis
 
         function notify(msg) {
             const t = document.getElementById('toast');
@@ -230,13 +482,30 @@
             const l = document.getElementById('dir-long');
             const s = document.getElementById('dir-short');
             if(dir === 'LONG') {
-                l.className = "flex-1 py-2 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-400";
-                s.className = "flex-1 py-2 rounded-lg text-xs font-bold text-zinc-500";
+                l.className = "flex-1 py-2 rounded-lg text-xs font-bold transition-all bg-emerald-500/20 text-emerald-400";
+                s.className = "flex-1 py-2 rounded-lg text-xs font-bold transition-all text-zinc-500";
             } else {
-                s.className = "flex-1 py-2 rounded-lg text-xs font-bold bg-red-500/20 text-red-400";
-                l.className = "flex-1 py-2 rounded-lg text-xs font-bold text-zinc-500";
+                s.className = "flex-1 py-2 rounded-lg text-xs font-bold transition-all bg-red-500/20 text-red-400";
+                l.className = "flex-1 py-2 rounded-lg text-xs font-bold transition-all text-zinc-500";
             }
             calcPreview();
+        }
+
+        // NEW: Set Trade Basis (Follow Checklist / Indicator base / Both)
+        function setMethod(meth) {
+            currentMethod = meth;
+            // reset all
+            document.getElementById('method-checklist').className = "flex-1 py-3 rounded-lg text-sm font-medium transition-all";
+            document.getElementById('method-indicator').className = "flex-1 py-3 rounded-lg text-sm font-medium transition-all";
+            document.getElementById('method-both').className = "flex-1 py-3 rounded-lg text-sm font-medium transition-all";
+            // activate selected
+            if (meth === 'Follow Checklist') {
+                document.getElementById('method-checklist').className += " bg-emerald-500/20 text-emerald-400";
+            } else if (meth === 'Indicator base') {
+                document.getElementById('method-indicator').className += " bg-blue-500/20 text-blue-400";
+            } else if (meth === 'Both') {
+                document.getElementById('method-both').className += " bg-purple-500/20 text-purple-400";
+            }
         }
 
         function updateLeverage(val) {
@@ -247,16 +516,32 @@
         function calcPreview() {
             const entry = parseFloat(document.getElementById('entryPrice').value) || 0;
             const exit = parseFloat(document.getElementById('exitPrice').value) || 0;
+            const sl = parseFloat(document.getElementById('stopLoss').value) || 0;
             const lev = parseFloat(document.getElementById('leverage').value);
             const marg = parseFloat(document.getElementById('margin').value) || 0;
-            if(entry === 0 || exit === 0) return;
+            if(entry <= 0 || exit <= 0 || marg <= 0) return;
+            if(entry === exit) return;
             const qty = (marg * lev) / entry;
             let profit = currentDirection === 'LONG' ? (exit - entry) * qty : (entry - exit) * qty;
-            const fees = (marg * lev) * 0.0005 * 2;
-            const net = (profit - fees).toFixed(2);
-            const el = document.getElementById('estPNLValue');
-            el.innerText = (net >= 0 ? '+$' : '-$') + Math.abs(net);
-            el.className = `text-xl font-black ${net >= 0 ? 'text-emerald-400' : 'text-red-400'}`;
+            const position = marg * lev;
+            const feeRate = 0.0004;
+            const fees = position * feeRate * 2;
+            const net = profit - fees;
+            const pnlEl = document.getElementById('estPNLValue');
+            pnlEl.innerText = (net >= 0 ? '+$' : '-$') + Math.abs(net).toFixed(2);
+            pnlEl.className = `text-xl font-black ${net >= 0 ? 'text-emerald-400' : 'text-red-400'}`;
+            if(sl > 0) {
+                let loss = currentDirection === 'LONG' ? Math.max(entry - sl, 0) : Math.max(sl - entry, 0);
+                loss = loss * qty;
+                const risk = loss + fees;
+                document.getElementById('riskValue').innerText = '-$' + Math.abs(risk).toFixed(2);
+                const reward = Math.abs(profit);
+                const rr = loss > 0 ? reward / loss : 0;
+                document.getElementById('rrValue').innerText = `1 : ${rr.toFixed(2)}`;
+            } else {
+                document.getElementById('riskValue').innerText = '-$0.00';
+                document.getElementById('rrValue').innerText = '1 : 0';
+            }
         }
 
         async function loadData() {
@@ -271,7 +556,8 @@
                     exit: parseFloat(r[4]) || 0,
                     lev: parseInt(r[5]) || 0,
                     margin: parseFloat(r[6]) || 0,
-                    pnl: parseFloat(r[7]) || 0
+                    pnl: parseFloat(r[8]) || 0,           // FIXED original bug (was r[7])
+                    method: r[10] ? r[10].toString() : 'Indicator base'  // NEW column (index 10)
                 })).sort((a, b) => a.date - b.date);
                 renderAll();
             } catch (err) {
@@ -292,12 +578,24 @@
             return { winRate: ((wins / count) * 100).toFixed(0), streak, totalPnl, count, growth: (totalPnl / 100 * 100).toFixed(1) };
         }
 
+        function getMethodClass(method) {
+            if (method === 'Follow Checklist') return 'bg-emerald-500/10 text-emerald-500';
+            if (method === 'Indicator base') return 'bg-blue-500/10 text-blue-500';
+            if (method === 'Both') return 'bg-purple-500/10 text-purple-500';
+            return 'bg-zinc-500/10 text-zinc-500';
+        }
+        function getMethodLabel(method) {
+            if (method === 'Follow Checklist') return '📋 CHECKLIST';
+            if (method === 'Indicator base') return '📊 INDICATOR';
+            if (method === 'Both') return '🔄 BOTH';
+            return method;
+        }
+
         function renderAll() {
             const stats = calculateStats();
             document.getElementById('live-equity').innerText = (100 + stats.totalPnl).toFixed(2);
             document.getElementById('trade-count-badge').innerText = stats.count + " Trades";
             document.getElementById('growth-percentage').innerText = (stats.totalPnl >= 0 ? '+' : '') + stats.growth + '%';
-
             document.getElementById('stat-row-top').innerHTML = `
                 <div class="glass p-5 rounded-2xl"><div class="text-[9px] font-bold text-zinc-500 uppercase">Win Rate</div><div class="text-3xl font-black text-emerald-400">${stats.winRate}%</div></div>
                 <div class="glass p-5 rounded-2xl"><div class="text-[9px] font-bold text-zinc-500 uppercase">Current Streak</div><div class="text-3xl font-black text-cyan-400">${stats.streak} 🔥</div></div>
@@ -305,7 +603,6 @@
                 <div class="glass p-5 rounded-2xl"><div class="text-[9px] font-bold text-zinc-500 uppercase">Avg Profit</div><div class="text-3xl font-black">$${(stats.totalPnl/stats.count || 0).toFixed(2)}</div></div>
                 <div class="glass p-5 rounded-2xl"><div class="text-[9px] font-bold text-zinc-500 uppercase">Trades</div><div class="text-3xl font-black text-white">${stats.count}</div></div>
             `;
-            
             const pnls = trades.map(t => t.pnl);
             document.getElementById('stat-row-bottom').innerHTML = `
                 <div class="glass stat-card rounded-2xl p-6 text-center"><div class="text-xs text-zinc-400 font-bold uppercase">Max Win</div><div class="text-3xl font-bold mt-2 text-emerald-400">+$${Math.max(...pnls, 0).toFixed(2)}</div></div>
@@ -313,7 +610,6 @@
                 <div class="glass stat-card rounded-2xl p-6 text-center"><div class="text-xs text-zinc-400 font-bold uppercase">Net Yield</div><div class="text-3xl font-bold mt-2 text-cyan-400">${stats.growth}%</div></div>
                 <div class="glass stat-card rounded-2xl p-6 text-center"><div class="text-xs text-zinc-400 font-bold uppercase">Efficiency</div><div class="text-3xl font-bold mt-2 text-white">${stats.winRate}%</div></div>
             `;
-
             renderJournal();
             updateCharts();
         }
@@ -326,6 +622,7 @@
                     <td class="p-5 text-xs text-zinc-500 font-mono">${t.date.toLocaleDateString()}</td>
                     <td class="p-5 font-bold">${t.coin}</td>
                     <td class="p-5"><span class="trade-badge ${t.dir === 'LONG' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-red-500/10 text-red-500'}">${t.dir}</span></td>
+                    <td class="p-5"><span class="trade-badge ${getMethodClass(t.method)}">${getMethodLabel(t.method)}</span></td>
                     <td class="p-5 text-xs font-mono text-zinc-500">${t.entry} → ${t.exit}</td>
                     <td class="p-5 text-center font-bold text-cyan-500">${t.lev}x</td>
                     <td class="p-5 text-right font-black ${t.pnl >= 0 ? 'text-emerald-400' : 'text-red-400'}">${t.pnl.toFixed(2)}</td>
@@ -376,20 +673,49 @@
                 type: 'bar',
                 data: {
                     labels: sortedDates.map(ld => new Date(ld).toLocaleDateString(undefined, {month:'short', day:'numeric'})),
-                    datasets: [{ 
-                        data: sortedDates.map(ld => dailyData[ld].toFixed(2)), 
-                        backgroundColor: sortedDates.map(ld => dailyData[ld] >= 0 ? '#10b981' : '#ef4444'), 
-                        borderRadius: 5 
+                    datasets: [{
+                        data: sortedDates.map(ld => dailyData[ld].toFixed(2)),
+                        backgroundColor: sortedDates.map(ld => dailyData[ld] >= 0 ? '#10b981' : '#ef4444'),
+                        borderRadius: 5
                     }]
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' } } } }
+            });
+
+            // NEW: Trade Method Distribution Chart
+            const ctxM = document.getElementById('methodChart');
+            if(charts.method) charts.method.destroy();
+            const checklistCount = trades.filter(t => t.method === 'Follow Checklist').length;
+            const indicatorCount = trades.filter(t => t.method === 'Indicator base').length;
+            const bothCount = trades.filter(t => t.method === 'Both').length;
+            charts.method = new Chart(ctxM, {
+                type: 'doughnut',
+                data: {
+                    labels: ['📋 Checklist', '📊 Indicator', '🔄 Both'],
+                    datasets: [{
+                        data: [checklistCount, indicatorCount, bothCount],
+                        backgroundColor: ['#22c55e', '#3b82f6', '#c026d3'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '75%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#888', padding: 20, usePointStyle: true }
+                        }
+                    }
+                }
             });
         }
 
         async function handleSaveTrade(e) {
             e.preventDefault();
             const btn = e.target.querySelector('button');
-            btn.innerText = "Syncing..."; btn.disabled = true;
+            btn.innerText = "Syncing..."; 
+            btn.disabled = true;
+
             const entry = parseFloat(document.getElementById('entryPrice').value);
             const exit = parseFloat(document.getElementById('exitPrice').value);
             const lev = parseInt(document.getElementById('leverage').value);
@@ -397,28 +723,111 @@
             const qty = (marg * lev) / entry;
             let pnl = currentDirection === 'LONG' ? (exit - entry) * qty : (entry - exit) * qty;
             const net = parseFloat((pnl - (marg * lev * 0.001)).toFixed(2));
-            const data = { date: new Date().toISOString(), coin: document.getElementById('coin').value.toUpperCase(), direction: currentDirection, entryPrice: entry, exitPrice: exit, leverage: lev, margin: marg, netPNL: net, durationHours: 0 };
+
+            const data = { 
+                date: new Date().toISOString(), 
+                coin: document.getElementById('coin').value.toUpperCase(), 
+                direction: currentDirection, 
+                entryPrice: entry, 
+                exitPrice: exit, 
+                leverage: lev, 
+                margin: marg, 
+                netPNL: net, 
+                durationHours: 0,
+                method: currentMethod   // NEW: sent to Google Sheet
+            };
+
             try {
                 await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-                notify("Trade Saved Successfully!"); e.target.reset();
+                notify("Trade Saved Successfully! (Basis: " + currentMethod + ")");
+                e.target.reset();
                 document.getElementById('levDisplay').innerText = '5x';
+                // reset basis to default
+                currentMethod = 'Indicator base';
+                setMethod('Indicator base');
                 setTimeout(loadData, 1000);
-            } catch (err) { notify("Save Failed"); }
-            finally { btn.innerText = "Save Trade to Cloud"; btn.disabled = false; }
+            } catch (err) { 
+                notify("Save Failed"); 
+            }
+            finally { 
+                btn.innerText = "Save Trade to Cloud"; 
+                btn.disabled = false; 
+            }
         }
 
         function switchTab(idx) {
             document.querySelectorAll('.menu-item').forEach((m, i) => m.classList.toggle('menu-active', i === idx));
             document.querySelectorAll('.tab-content').forEach((t, i) => t.classList.toggle('active', i === idx));
-            document.getElementById('page-title').innerText = ["Dashboard", "New Execution", "Trade History", "Statistical Analysis"][idx];
+            const titles = ["Dashboard", "New Execution", "Trade History", "Statistical Analysis", "Trading Checklist"];
+            document.getElementById('page-title').innerText = titles[idx];
             if (idx === 0 || idx === 3) setTimeout(updateCharts, 100);
         }
 
-        function refreshData() { notify("Syncing with Sheet..."); loadData(); }
+        function refreshData() { 
+            notify("Syncing with Sheet..."); 
+            loadData(); 
+        }
+
+        // CHECKLIST SCRIPT (embedded)
+        function initChecklist() {
+            const checkboxes = document.querySelectorAll('#tab-4 input[type="checkbox"]');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const enterBtn = document.getElementById('enterBtn');
+            const popupBanner = document.getElementById('popupBanner');
+
+            function updateProgress() {
+                const checkedCount = Array.from(checkboxes).filter(chk => chk.checked).length;
+                const percentage = Math.round((checkedCount / checkboxes.length) * 100);
+                progressFill.style.width = `${percentage}%`;
+                progressText.textContent = `${percentage}% Complete (${checkedCount}/${checkboxes.length})`;
+                const allChecked = Array.from(checkboxes).every(chk => chk.checked);
+                enterBtn.disabled = !allChecked;
+                if (allChecked) {
+                    enterBtn.style.background = 'linear-gradient(90deg, #eab308, #facc15)';
+                }
+            }
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const item = this.closest('.checklist-item');
+                    item.classList.toggle('completed', this.checked);
+                    updateProgress();
+                });
+            });
+
+            enterBtn.addEventListener('click', () => {
+                if (!enterBtn.disabled) {
+                    popupBanner.classList.add('show');
+                }
+            });
+
+            window.closePopup = function() {
+                popupBanner.classList.remove('show');
+                checkboxes.forEach(chk => {
+                    chk.checked = false;
+                    const item = chk.closest('.checklist-item');
+                    item.classList.remove('completed');
+                });
+                progressFill.style.width = '0%';
+                progressText.textContent = `0% Complete (0/${checkboxes.length})`;
+                enterBtn.disabled = true;
+                enterBtn.style.background = '';
+            };
+
+            updateProgress();
+        }
 
         window.onload = () => {
             loadData();
-            ['entryPrice', 'exitPrice', 'margin'].forEach(id => document.getElementById(id).addEventListener('input', calcPreview));
+            ['entryPrice', 'exitPrice', 'margin'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('input', calcPreview);
+            });
+            // init checklist once
+            initChecklist();
+            // default method button active
+            setMethod('Indicator base');
         };
     </script>
 </body>
