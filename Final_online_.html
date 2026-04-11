@@ -89,18 +89,29 @@
     <script>
         // --- Data Configuration ---
         
-        const achievements = [
-            { name: "eJPTv2", desc: "Penetration Testing Foundation", icon: "🛡️", imgPath: "https://i.ibb.co.com/sJJ2xFb9/ejpt.jpg" },
-            { name: "CAPIE", desc: "API Security Expert", icon: "🔗", imgPath: "https://i.ibb.co.com/60Xj8h50/capie.jpg" },
-            { name: "APIsecPT", desc: "API Penetration Testing", icon: "🌐", imgPath: "https://i.ibb.co.com/Fqg3m5S5/apisec.jpg" },
-            { name: "CRTA", desc: "Red Team Assessment", icon: "🚩", imgPath: "https://i.ibb.co.com/v4bZGq8x/crta.jpg" },
-            { name: "NSE3 FCA", desc: "Fortinet Security Associate", icon: "💻", imgPath: "https://i.ibb.co.com/B5477PcL/fca.jpg" },
-            { name: "CCEP", desc: "Cloud Compliance Professional", icon: "☁️", imgPath: "https://i.ibb.co.com/XfbfJvNc/ccep.jpg" },
-            { name: "CNSP", desc: "Network Security Professional", icon: "📡", imgPath: "https://i.ibb.co.com/YF0VhMSc/cnsp.jpg" },
-	    { name: "SOC", desc: "Security Operations Center Masterclass", icon: "🛡️", imgPath: "https://i.ibb.co.com/6Rmm8ZTw/soc.jpg" },
-	    { name: "CPPS", desc: "Certified Phishing Prevention Specialist", icon: "🎣", imgPath: "https://i.ibb.co.com/Fk2XSVwf/cpps.jpg" },
-    	    { name: "ISO 27001", desc: "ISO/IEC 27001:2022 Information Security Associate", icon: "📋", imgPath: "https://i.ibb.co.com/QvrFsmKP/iso.jpg" }
-        ];
+const certificates = [
+  { name: "eJPTv2", desc: "Penetration Testing Foundation", icon: "🛡️", imgPath: "https://i.ibb.co.com/sJJ2xFb9/ejpt.jpg" },
+
+  { name: "CRTA", desc: "Red Team Assessment", icon: "🚩", imgPath: "https://i.ibb.co.com/v4bZGq8x/crta.jpg" },
+
+  { name: "AD-RTS", desc: "Advanced Detection & Response Threat Simulation", icon: "🎯", imgPath: "https://i.ibb.co.com/rfzVk6h2/AD-RTS.jpg" },
+
+  { name: "Coursera", desc: "Cybersecurity Specialization", icon: "📘", imgPath: "https://i.ibb.co.com/fzXcfKtS/G-Security.jpg" },
+
+  { name: "CodeRed", desc: "Offensive Security Training", icon: "💻", imgPath: "https://i.ibb.co.com/Z1LLGPXN/codered.jpg" },
+
+  { name: "SOC-Radar", desc: "Threat Intelligence & SOC", icon: "📡", imgPath: "https://i.ibb.co.com/pBDfyjzQ/SOC-Rader.jpg" },
+
+  { name: "CAPIE", desc: "Certified API Security Expert", icon: "🔗", imgPath: "https://i.ibb.co.com/60Xj8h50/capie.jpg" },
+
+  { name: "CNSP", desc: "Certified Network Security Practitioner", icon: "🌐", imgPath: "https://i.ibb.co.com/YF0VhMSc/cnsp.jpg" },
+
+  { name: "NSE3 FCA", desc: "Fortinet Security Associate", icon: "🔥", imgPath: "https://i.ibb.co.com/B5477PcL/fca.jpg" },
+
+  { name: "CRPO", desc: "Certified Red Team Professional (Offensive)", icon: "⚔️", imgPath: "https://i.ibb.co.com/5hx2WVvp/CRPO.jpg" },
+
+  { name: "APIsecPT", desc: "API Penetration Testing", icon: "🌐", imgPath: "https://i.ibb.co.com/Fqg3m5S5/apisec.jpg" }
+];
         
         const PROFILE_PHOTO_PATH = "https://i.ibb.co.com/ds3YKbQk/pro.jpg";
         // New image URL for the TYPE diagram
@@ -123,7 +134,7 @@
                         <p class="text-sm text-slate-400">Passionate About Penetration Testing and Red Teaming</p>
                         <div class="space-y-4 max-w-2xl mx-auto pt-4">
                             <div class="grid grid-cols-4 sm:grid-cols-7 gap-3 justify-center">
-                                ${achievements.map((a) => `
+                                ${certificates.map((a) => `
                                     <div 
                                         class="p-2 rounded-lg bg-slate-700 hover:bg-emerald-600 transition cursor-pointer flex flex-col items-center justify-center text-center shadow-md"
                                         onclick="showCertificateDetails('${a.name}', '${a.desc}', '${a.icon}', '${a.imgPath}')"
