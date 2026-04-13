@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 FULL AD Enumeration Cheat Sheet + Workflow | PowerShell (Serial & Perfect)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500&amp;display=swap');
+       
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --accent: #38bdf8;
+            --green: #22c55e;
+            --yellow: #facc15;
+        }
+       
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+       
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg);
+            color: #e2e8f0;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+       
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            text-align: center;
+            font-size: 2.8rem;
+            color: var(--accent);
+            margin-bottom: 8px;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+        }
+       
+        .subtitle {
+            text-align: center;
+            font-size: 1.35rem;
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+       
+        .toc {
+            background: var(--card);
+            padding: 22px;
+            border-radius: 12px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+       
+        .toc h3 {
+            color: var(--green);
+            margin-bottom: 14px;
+            font-size: 1.25rem;
+        }
+       
+        .toc ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 8px;
+        }
+       
+        .toc a {
+            color: #e2e8f0;
+            text-decoration: none;
+            display: block;
+            padding: 10px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+       
+        .toc a:hover {
+            background: #334155;
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+       
+        .section {
+            background: var(--card);
+            margin: 28px 0;
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #334155;
+        }
+       
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+       
+        .step-number {
+            background: #e74c3c;
+            color: white;
+            width: 42px;
+            height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
+        }
+       
+        h2 {
+            color: var(--green);
+            font-size: 1.65rem;
+            flex: 1;
+        }
+       
+        pre {
+            background: #020617;
+            color: var(--yellow);
+            padding: 18px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 15.5px;
+            border: 1px solid #334155;
+            position: relative;
+            margin: 14px 0;
+        }
+       
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #38bdf8;
+            color: white;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-size: 13.5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+       
+        .copy-btn:hover {
+            background: #22c55e;
+            transform: scale(1.05);
+        }
+       
+        .command-explain {
+            background: #0f172a;
+            border-left: 5px solid var(--accent);
+            padding: 16px 20px;
+            margin: 14px 0;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+       
+        .command-explain strong {
+            color: var(--green);
+        }
+       
+        .flow-box {
+            background: #334155;
+            padding: 22px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border: 2px dashed #22c55e;
+            font-size: 1.1rem;
+        }
+       
+        .note {
+            color: #94a3b8;
+            font-size: 14.5px;
+            background: #1e293b;
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin-top: 18px;
+        }
+       
+        .final-goal {
+            text-align: center;
+            font-size: 1.45rem;
+            background: linear-gradient(90deg, #22c55e, #38bdf8);
+            color: #0f172a;
+            padding: 28px;
+            border-radius: 16px;
+            margin: 35px 0;
+            font-weight: 700;
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.4);
+        }
+       
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+            font-size: 15.5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔥 FULL AD Enumeration</h1>
+    <p class="subtitle">PowerShell দিয়ে সম্পূর্ণ Active Directory Enumeration — একদম Serial, Perfect &amp; Professional</p>
+   
+    <div class="toc">
+        <h3>📋 Table of Contents (ক্লিক করে যেকোনো Step-এ যান)</h3>
+        <ul>
+            <li><a href="#step0">Step 0: Preparation + Error Fix</a></li>
+            <li><a href="#step1">Step 1: Identity &amp; Privilege Check</a></li>
+            <li><a href="#step2">Step 2: Domain &amp; Forest Info</a></li>
+            <li><a href="#step3">Step 3: User Enumeration</a></li>
+            <li><a href="#step4">Step 4: Group Enumeration</a></li>
+            <li><a href="#step5">Step 5: Computer Enumeration</a></li>
+            <li><a href="#step6">Step 6: OU &amp; GPO Enumeration</a></li>
+            <li><a href="#step7">Step 7: Domain Controllers, Trusts, Policy &amp; Network Recon</a></li>
+            <li><a href="#step8">Step 8: Logged-in Users &amp; Privilege Analysis</a></li>
+            <li><a href="#step9">Step 9: Share Enumeration (সবচেয়ে গুরুত্বপূর্ণ)</a></li>
+            <li><a href="#step10">Step 10: Network &amp; Service Enumeration</a></li>
+            <li><a href="#step11">Step 11: Advanced — SPN, ACL &amp; Sensitive Files</a></li>
+            <li><a href="#step12">Step 12: PowerView (Real Pentest Mode)</a></li>
+        </ul>
+    </div>
+
+    <!-- STEP 0 -->
+    <div class="section" id="step0">
+        <div class="step-header">
+            <div class="step-number">0</div>
+            <h2>Preparation + Error Fix (প্রথমে এটা করো)</h2>
+        </div>
+        <pre><code>Install-WindowsFeature RSAT-AD-PowerShell</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> Active Directory PowerShell মডিউল ইনস্টল করে।<br>
+            <strong>কেন ব্যবহার করবো:</strong> Get-AD* কমান্ডগুলো কাজ না করলে এটা চালিয়ে নাও (সবচেয়ে কমন এরর ফিক্স)।
+        </div>
+       
+        <pre><code>Import-Module ActiveDirectory</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> AD মডিউল লোড করে।<br>
+            <strong>কেন ব্যবহার করবো:</strong> প্রত্যেক নতুন PowerShell সেশনে প্রথমে এটা চালাও — ছাড়া কোনো AD কমান্ড চলবে না।
+        </div>
+        <div class="note">PowerShell কে Run as Administrator করে খোলো।</div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="section" id="step1">
+        <div class="step-header">
+            <div class="step-number">1</div>
+            <h2>Identity &amp; Privilege Check (নিজেকে চিনে নাও)</h2>
+        </div>
+        <pre><code>whoami</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> বর্তমান লগইন ইউজারের নাম দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> প্রথম কাজ — তুমি কোন ইউজার হিসেবে আছো তা জানা।
+        </div>
+       
+        <pre><code>whoami /groups</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> তোমার সব গ্রুপ মেম্বারশিপ দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> কোন প্রিভিলেজ গ্রুপে আছো তা বোঝা (very important)।
+        </div>
+       
+        <pre><code>whoami /priv</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> তোমার সব privileges দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> SeImpersonatePrivilege বা SeDebugPrivilege আছে কি না চেক করো।
+        </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="section" id="step2">
+        <div class="step-header">
+            <div class="step-number">2</div>
+            <h2>Domain &amp; Forest Information (বড় ছবি দেখো)</h2>
+        </div>
+        <pre><code>Get-ADDomain</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> বর্তমান ডোমেইনের সব তথ্য (name, DC, functional level) দেয়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> ডোমেইনের স্ট্রাকচার বুঝতে — এটা সবার আগে চালাও।
+        </div>
+       
+        <pre><code>Get-ADForest</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> Forest level, trees, trust ইত্যাদি দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> একাধিক ডোমেইন থাকলে forest level বোঝা জরুরি।
+        </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="section" id="step3">
+        <div class="step-header">
+            <div class="step-number">3</div>
+            <h2>User Enumeration (সব ইউজার খুঁজে বের করো)</h2>
+        </div>
+        <pre><code>Get-ADUser -Filter * | Select-Object Name, SamAccountName, Enabled</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> সব ইউজারের নাম, username ও স্ট্যাটাস দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> টার্গেট ইউজার লিস্ট তৈরি করতে।
+        </div>
+       
+        <pre><code>Get-ADUser -Filter {Enabled -eq $true}</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> শুধু active ইউজার দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> শুধু ব্যবহৃত অ্যাকাউন্টগুলো দেখতে।
+        </div>
+       
+        <pre><code>Get-ADUser -Filter * -Properties PasswordLastSet, PasswordNeverExpires</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> পাসওয়ার্ড শেষ পরিবর্তন ও never expire দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> weak password policy খুঁজে বের করতে।
+        </div>
+       
+        <pre><code>Get-ADUser -Identity username -Properties *</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> একটা নির্দিষ্ট ইউজারের সব প্রপার্টি দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> কোনো ইউজারের বিস্তারিত তথ্য চাইলে।
+        </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="section" id="step4">
+        <div class="step-header">
+            <div class="step-number">4</div>
+            <h2>Group Enumeration (Admin গ্রুপ খুঁজো)</h2>
+        </div>
+        <pre><code>Get-ADGroup -Filter * | Select-Object Name</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> সব গ্রুপের নাম দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> Domain Admins, Enterprise Admins ইত্যাদি খুঁজতে।
+        </div>
+       
+        <pre><code>Get-ADGroupMember -Identity "Domain Admins"</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> Domain Admins গ্রুপের সব মেম্বার দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> সবচেয়ে গুরুত্বপূর্ণ টার্গেট।
+        </div>
+       
+        <pre><code>Get-ADPrincipalGroupMembership -Identity username</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> একটা ইউজার কোন কোন গ্রুপে আছে দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> privilege escalation path খুঁজতে।
+        </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="section" id="step5">
+        <div class="step-header">
+            <div class="step-number">5</div>
+            <h2>Computer Enumeration (সব মেশিন দেখো)</h2>
+        </div>
+        <pre><code>Get-ADComputer -Filter * | Select-Object Name, OperatingSystem</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> সব কম্পিউটারের নাম ও OS দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> ল্যাটারাল মুভমেন্টের টার্গেট খুঁজতে।
+        </div>
+       
+        <pre><code>Get-ADComputer -Identity PCNAME -Properties *</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> একটা নির্দিষ্ট PC-এর সব তথ্য।<br>
+            <strong>কেন ব্যবহার করবো:</strong> বিস্তারিত দেখতে।
+        </div>
+       
+        <pre><code>Test-Connection PCNAME -Count 1</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> PC অনলাইন কি না চেক করে।<br>
+            <strong>কেন ব্যবহার করবো:</strong> লাইভ মেশিন বাছাই করতে।
+        </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="section" id="step6">
+        <div class="step-header">
+            <div class="step-number">6</div>
+            <h2>OU &amp; GPO Enumeration (Policy &amp; Structure)</h2>
+        </div>
+        <pre><code>Get-ADOrganizationalUnit -Filter * -Properties *</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> সব Organizational Unit দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> ডোমেইনের লজিক্যাল স্ট্রাকচার বুঝতে।
+        </div>
+       
+        <pre><code>Get-GPO -All | Select DisplayName, GPOStatus, ModificationTime</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> সব Group Policy Object দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> misconfiguration খুঁজে privilege escalation করতে।
+        </div>
+    </div>
+
+    <!-- STEP 7 -->
+    <div class="section" id="step7">
+        <div class="step-header">
+            <div class="step-number">7</div>
+            <h2>Domain Controllers, Trusts, Policy &amp; Network Recon</h2>
+        </div>
+        <pre><code>Get-ADDomainController -Filter *</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> সব Domain Controller দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> সবচেয়ে গুরুত্বপূর্ণ টার্গেট।
+        </div>
+       
+        <pre><code>nltest /dclist:domain.local</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> Domain এর সব Domain Controller দেখায় (legacy way)।<br>
+            <strong>কেন ব্যবহার করবো:</strong> দ্রুত DC লিস্ট পেতে।
+        </div>
+       
+        <pre><code>Get-ADTrust -Filter *</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> ডোমেইন ট্রাস্ট দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> lateral movement / cross-domain attack।
+        </div>
+       
+        <pre><code>Get-ADDefaultDomainPasswordPolicy</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> পাসওয়ার্ড পলিসি দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> weak policy থাকলে brute-force / spray সম্ভব।
+        </div>
+       
+        <pre><code>net user /domain</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> Domain এর সব user দেখায় (legacy)।<br>
+            <strong>কেন ব্যবহার করবো:</strong> দ্রুত recon করতে।
+        </div>
+       
+        <pre><code>net group /domain</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> Domain এর সব group দেখায় (legacy)।<br>
+            <strong>কেন ব্যবহার করবো:</strong> দ্রুত গ্রুপ লিস্ট পেতে।
+        </div>
+    </div>
+
+    <!-- STEP 8 -->
+    <div class="section" id="step8">
+        <div class="step-header">
+            <div class="step-number">8</div>
+            <h2>Logged-in Users &amp; Privilege Analysis (CRITICAL)</h2>
+        </div>
+        <pre><code>query user /server:PCNAME</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> কোন কোন ইউজার লগইন আছে দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> Domain Admin কোথায় লগইন আছে তা খুঁজতে (VERY IMPORTANT)।
+        </div>
+       
+        <pre><code>Get-WmiObject -Class Win32_ComputerSystem</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> লগইন ইউজারের তথ্য।<br>
+            <strong>কেন ব্যবহার করবো:</strong> admin session খুঁজতে।
+        </div>
+    </div>
+
+    <!-- STEP 9 -->
+    <div class="section" id="step9">
+        <div class="step-header">
+            <div class="step-number">9</div>
+            <h2>Share Enumeration (সব শেয়ার দেখো — সবচেয়ে গুরুত্বপূর্ণ)</h2>
+        </div>
+        <pre><code>Get-SmbShare</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> লোকাল শেয়ার দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> sensitive file খুঁজতে।
+        </div>
+       
+        <pre><code>Get-SmbShare -CimSession PCNAME</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> Specific PC এর SMB share দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> remote share enum করতে।
+        </div>
+       
+        <pre><code>net share</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> লোকাল শেয়ার দেখায় (legacy)।<br>
+            <strong>কেন ব্যবহার করবো:</strong> দ্রুত লোকাল শেয়ার চেক করতে।
+        </div>
+       
+        <pre><code>net view \\COMPUTERNAME</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> একটা PC-এর সব শেয়ার।<br>
+            <strong>কেন ব্যবহার করবো:</strong> remote share দেখতে।
+        </div>
+       
+        <pre><code>$computers = Get-ADComputer -Filter * | Select-Object -ExpandProperty Name
+foreach ($comp in $computers) {
+    Write-Host "=== $comp এর Share ===" -ForegroundColor Green
+    net view \\$comp 2>$null
+}</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> সব কম্পিউটারের শেয়ার একসাথে দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> সবচেয়ে efficient way।
+        </div>
+    </div>
+
+    <!-- STEP 10 -->
+    <div class="section" id="step10">
+        <div class="step-header">
+            <div class="step-number">10</div>
+            <h2>Network &amp; Service Enumeration</h2>
+        </div>
+        <pre><code>ipconfig /all</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> নেটওয়ার্ক কনফিগ দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> subnet, DNS জানতে।
+        </div>
+       
+        <pre><code>arp -a</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> লোকাল নেটওয়ার্ক ডিভাইস দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> hidden machine খুঁজতে।
+        </div>
+       
+        <pre><code>netstat -ano</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> সব connection দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> interesting port খুঁজতে।
+        </div>
+       
+        <pre><code>Get-Service</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> সব running service দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> vulnerable service খুঁজতে।
+        </div>
+    </div>
+
+    <!-- STEP 11 -->
+    <div class="section" id="step11">
+        <div class="step-header">
+            <div class="step-number">11</div>
+            <h2>Advanced — SPN, ACL &amp; Sensitive Files</h2>
+        </div>
+        <pre><code>Get-ADUser -Filter {ServicePrincipalName -ne $null} -Properties ServicePrincipalName | Select-Object SamAccountName, ServicePrincipalName</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> Kerberoastable accounts দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> Kerberoasting attack এর জন্য।
+        </div>
+       
+        <pre><code>Get-ADUser -Identity "targetuser" | Get-ADPermission | Where-Object {$_.ActiveDirectoryRights -match "GenericAll|Write|ResetPassword|CreateChild"}</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> ACL permission দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> interesting permission খুঁজে escalation করতে।
+        </div>
+       
+        <pre><code>dir \\PCNAME\C$\Users\ /s /b | findstr /i "password|config|key"</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> sensitive file খুঁজে বের করে।<br>
+            <strong>কেন ব্যবহার করবো:</strong> password, config ফাইল পেতে।
+        </div>
+    </div>
+
+    <!-- STEP 12 -->
+    <div class="section" id="step12">
+        <div class="step-header">
+            <div class="step-number">12</div>
+            <h2>PowerView — Real Pentest Mode</h2>
+        </div>
+        <pre><code>Import-Module .\PowerView.ps1</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> PowerView মডিউল লোড করে।<br>
+            <strong>কেন ব্যবহার করবো:</strong> AD enumeration-এর সবচেয়ে powerful tool।
+        </div>
+       
+        <pre><code>Get-NetUser | Select samaccountname, lastlogon</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> PowerView দিয়ে user দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> আরও advanced info।
+        </div>
+       
+        <pre><code>Get-NetGroup "Domain Admins"</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> PowerView দিয়ে admin গ্রুপ।<br>
+            <strong>কেন ব্যবহার করবো:</strong> আরও ভালো ফিল্টার।
+        </div>
+       
+        <pre><code>Get-NetComputer</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> PowerView দিয়ে সব কম্পিউটার দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> দ্রুত machine enum।
+        </div>
+       
+        <pre><code>Get-NetShare</code></pre>
+        <button class="copy-btn" onclick="copyCommand(this)">Copy</button>
+        <div class="command-explain">
+            <strong>কী করে:</strong> PowerView দিয়ে শেয়ার দেখায়।<br>
+            <strong>কেন ব্যবহার করবো:</strong> advanced share enumeration।
+        </div>
+    </div>
+
+    <div class="flow-box">
+        <strong>✅ Recommended Serial Flow (এই ক্রমে চালাও — কোনো কমান্ড বাদ যাবে না):</strong><br>
+        0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11 → 12<br>
+        প্রত্যেক step শেষ করে পরেরটায় যাও। এতে কিছু miss হবে না।
+    </div>
+
+    <div class="final-goal">
+        👉 Weak User → Privilege Escalation → Admin Session → Domain Admin<br>
+        এই পুরো workflow শেষ করলে তুমি BloodHound-এর জন্যও পুরোপুরি ready!
+    </div>
+
+    <div class="note" style="text-align:center; font-size:17px;">
+        এই HTML ফাইলটা Desktop-এ সেভ করে রাখো। প্রতিবার pentest-এ খুলে একটা একটা করে কমান্ড চালাও।<br>
+        কোনো step-এ error এলে exact error message আমাকে পাঠাও — আমি ফিক্স করে দিব।
+    </div>
+
+    <script>
+        function copyCommand(btn) {
+            const pre = btn.parentElement.querySelector('pre');
+            if (pre) {
+                const text = pre.textContent.trim();
+                navigator.clipboard.writeText(text).then(() => {
+                    const original = btn.textContent;
+                    btn.textContent = '✅ Copied!';
+                    btn.style.background = '#22c55e';
+                    setTimeout(() => {
+                        btn.textContent = original;
+                        btn.style.background = '#38bdf8';
+                    }, 2200);
+                });
+            }
+        }
+       
+        // Keyboard shortcut: Ctrl+K to jump to TOC
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                document.querySelector('.toc').scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    </script>
+</body>
+</html>
