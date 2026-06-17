@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সাইবারসিকিউরিটি সেমিনার প্রেজেন্টেশন</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Proper Bangla typeface (falls back automatically for non-Latin glyphs Inter can't render) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom styles for a professional, dark cybersecurity theme */
+        :root {
+            --primary-color: #10b981; /* Emerald 500 */
+            --secondary-color: #3b82f6; /* Blue 500 */
+            --background-color: #0f172a; /* Slate 900 */
+            --card-bg: #1e293b; /* Slate 800 */
+        }
+        body {
+            font-family: 'Inter', 'Hind Siliguri', sans-serif;
+            background-color: var(--background-color);
+            color: #f8fafc; /* Slate 50 */
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* --- Signature ambient backdrop: faint grid + slow scanline (cybersecurity motif) --- */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(16, 185, 129, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.05) 1px, transparent 1px);
+            background-size: 42px 42px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: -2px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.45), transparent);
+            pointer-events: none;
+            z-index: 1;
+            animation: scan 7s linear infinite;
+        }
+        @keyframes scan {
+            0% { top: -2px; }
+            100% { top: 100%; }
+        }
+        .max-w-4xl { position: relative; z-index: 2; }
+
+        .simulator-card {
+            background-color: var(--card-bg);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.25);
+            border-top: 4px solid var(--primary-color);
+        }
+        .custom-button {
+            transition: all 0.2s;
+            border: 1px solid var(--primary-color);
+        }
+        .custom-button:hover {
+            background-color: var(--primary-color);
+            color: var(--background-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.4);
+        }
+        .custom-button:focus-visible {
+            outline: 2px solid var(--secondary-color);
+            outline-offset: 3px;
+        }
+        /* Disable button style */
+        .custom-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            background-color: #334155; /* Slate 700 */
+            color: #94a3b8; /* Slate 400 */
+        }
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        #cert-image-placeholder {
+            max-width: 100%;
+            height: auto;
+            max-height: 60vh;
+        }
+
+        /* Slide transition */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        #presentation-container { animation: slideIn 0.35s ease-out; }
+
+        /* Fullscreen toggle */
+        #fullscreen-toggle {
+            position: fixed;
+            top: 14px;
+            right: 14px;
+            z-index: 50;
+            font-size: 0.75rem;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .animate-bounce, .animate-pulse, body::after, #presentation-container {
+                animation: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button id="fullscreen-toggle" onclick="window.toggleFullscreen()"
+        class="custom-button px-3 py-2 rounded-lg bg-slate-800 text-slate-200 hover:bg-emerald-600">
+        ⛶ Fullscreen
+    </button>
+
+    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+        <header class="text-center mb-0 space-y-0 p-0 h-0"></header>
+
+        <!-- Status Dashboard -->
+        <div id="status-dashboard" class="flex justify-between items-center bg-slate-800 p-4 rounded-xl mb-3 border border-slate-700 shadow-xl" style="display: none;">
+            <div>
+                <p class="text-sm font-light text-slate-400">সময়</p>
+                <p id="storage-mode-display" class="font-mono text-lg font-bold text-white">00:00</p>
+            </div>
+            <div>
+                <p class="text-sm font-light text-slate-400">স্লাইড</p>
+                <p id="progress-display" class="text-lg font-bold text-blue-300">Ready</p>
+            </div>
+            <div>
+                <p class="text-sm font-light text-slate-400">অগ্রগতি</p>
+                <p id="score-display" class="text-2xl font-bold text-emerald-400">—</p>
+            </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div id="progress-bar-container" class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mb-8" style="display: none;">
+            <div id="progress-bar-fill" class="h-full bg-emerald-500 transition-all duration-500" style="width: 0%"></div>
+        </div>
+
+        <!-- Simulation Content Area -->
+        <div id="simulator-content" class="simulator-card rounded-xl p-6 sm:p-10 min-h-[500px] flex items-center justify-center">
+            <div class="text-center space-y-8">
+                <h2 class="text-3xl font-bold text-emerald-400">সাইবারসিকিউরিটি সেমিনার সিমুলেটর</h2>
+                <button
+                    class="custom-button p-4 px-8 text-xl font-bold rounded-lg bg-emerald-600 text-slate-900 hover:bg-emerald-500"
+                    onclick="window.startSimulation()"
+                >
+                    শুরু করুন (Start)
+                </button>
+                <p class="text-xs text-slate-500">কীবোর্ড শর্টকাট: → / Space পরের স্লাইড, ← আগের স্লাইড, Esc মডাল বন্ধ</p>
+            </div>
+        </div>
+
+        <!-- Certificate Modal -->
+        <div id="certificate-modal" class="modal" onclick="closeModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <div class="flex justify-end">
+                    <button class="text-3xl text-red-500 hover:text-red-400" onclick="closeModal()">
+                        &times;
+                    </button>
+                </div>
+                <div class="text-center space-y-4 pt-4">
+                    <h3 id="cert-title" class="text-3xl font-extrabold text-emerald-400"></h3>
+                    <img id="cert-image-placeholder" src="" alt="Certificate" class="mx-auto rounded-lg border-2 border-slate-600">
+                    <p id="cert-description" class="text-lg text-slate-300"></p>
+                    <p class="text-sm text-slate-500 pt-2">Click X or ESC to close</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-10 text-center text-slate-500 text-sm">
+            Offline Presentation Mode
+        </footer>
+    </div>
+
+    <script>
+        // --- Data Configuration ---
+
+        const certificates = [
+          { name: "eJPTv2", desc: "Penetration Testing Foundation", icon: "🛡️", imgPath: "https://i.ibb.co.com/sJJ2xFb9/ejpt.jpg" },
+          { name: "CRTA", desc: "Red Team Assessment", icon: "🚩", imgPath: "https://i.ibb.co.com/v4bZGq8x/crta.jpg" },
+          { name: "AD-RTS", desc: "Advanced Detection & Response Threat Simulation", icon: "🎯", imgPath: "https://i.ibb.co.com/rfzVk6h2/AD-RTS.jpg" },
+          { name: "Coursera", desc: "Cybersecurity Specialization", icon: "📘", imgPath: "https://i.ibb.co.com/fzXcfKtS/G-Security.jpg" },
+          { name: "CodeRed", desc: "Offensive Security Training", icon: "💻", imgPath: "https://i.ibb.co.com/Z1LLGPXN/codered.jpg" },
+          { name: "SOC-Radar", desc: "Threat Intelligence & SOC", icon: "📡", imgPath: "https://i.ibb.co.com/pBDfyjzQ/SOC-Rader.jpg" },
+          { name: "CAPIE", desc: "Certified API Security Expert", icon: "🔗", imgPath: "https://i.ibb.co.com/60Xj8h50/capie.jpg" },
+          { name: "CNSP", desc: "Certified Network Security Practitioner", icon: "🌐", imgPath: "https://i.ibb.co.com/YF0VhMSc/cnsp.jpg" },
+          { name: "NSE3 FCA", desc: "Fortinet Security Associate", icon: "🔥", imgPath: "https://i.ibb.co.com/B5477PcL/fca.jpg" },
+          { name: "CRPO", desc: "Certified Red Team Professional (Offensive)", icon: "⚔️", imgPath: "https://i.ibb.co.com/5hx2WVvp/CRPO.jpg" },
+          { name: "APIsecPT", desc: "API Penetration Testing", icon: "🌐", imgPath: "https://i.ibb.co.com/Fqg3m5S5/apisec.jpg" }
+        ];
+
+        const PROFILE_PHOTO_PATH = "https://i.ibb.co.com/ds3YKbQk/pro.jpg";
+        const TYPE_DIAGRAM_PATH = "https://i.ibb.co.com/CS8s1Qt/htype.png";
+
+        const presentationSteps = [
+            // SLIDE 1: Who I Am (Profile)
+            {
+                id: 1,
+                title: "১. আমি কে? আমার সাইবার যাত্রা",
+                visualTitle: "*_*",
+                content: `
+                    <div class="text-center space-y-4">
+                        <img src="${PROFILE_PHOTO_PATH}"
+                             onerror="this.onerror=null; this.src='https://placehold.co/150x150/1e293b/a5f3fc?text=Img';"
+                             class="rounded-full mx-auto border-4 border-emerald-400 w-[150px] h-[150px] object-cover"
+                             alt="Profile Picture">
+                        <h3 class="text-3xl font-extrabold text-white">MD Saziat Rahman Himel</h3>
+                        <p class="text-xl text-emerald-300">Cybersecurity Learner & Practitioner</p>
+                        <p class="text-sm text-slate-400">Passionate About Penetration Testing and Red Teaming</p>
+                        <div class="space-y-4 max-w-2xl mx-auto pt-4">
+                            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-3 justify-center">
+                                ${certificates.map((a) => `
+                                    <div
+                                        class="p-2 rounded-lg bg-slate-700 hover:bg-emerald-600 transition cursor-pointer flex flex-col items-center justify-center text-center shadow-md"
+                                        onclick="showCertificateDetails('${a.name}', '${a.desc}', '${a.icon}', '${a.imgPath}')"
+                                    >
+                                        <span class="text-2xl">${a.icon}</span>
+                                        <span class="text-xs font-mono font-bold mt-1 text-white">${a.name}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <p class="text-xs text-slate-500">(সার্টিফিকেট দেখতে আইকনে ক্লিক করুন)</p>
+                        </div>
+                    </div>
+                `,
+                nextButtonText: "Next: Cyber Field কী?"
+            },
+
+            // SLIDE 2: What Is Cyber Field?
+            {
+                id: 2,
+                title: "২. Cyber Field কী?",
+                visualTitle: "Data + Device + Internet = Cyber Field",
+                content: `
+                    <div class="grid md:grid-cols-2 gap-8 items-center text-center">
+                        <div class="space-y-4 text-left p-4 bg-slate-800 rounded-lg">
+                            <p class="text-lg text-slate-300">Cyber field মানে শুধু ইন্টারনেট না—আমাদের ডিজিটাল জীবনের সবকিছু।</p>
+                            <ul class="list-none space-y-2 text-emerald-300 font-bold">
+                                <li>🌐 Internet</li>
+                                <li>💻 Computers & Mobile Devices</li>
+                                <li>☁️ Servers & Cloud</li>
+                                <li>📂 Digital Data</li>
+                            </ul>
+                        </div>
+                        <div class="text-9xl animate-pulse">
+                            🌍
+                        </div>
+                    </div>
+                    <div class="mt-6 text-center">
+                        <p class="text-slate-400">যেখানে ডিজিটাল ডেটা আছে, সেটাই সাইবার ফিল্ড।</p>
+                    </div>
+                `,
+                nextButtonText: "Next: Cybersecurity কী?"
+            },
+
+            // SLIDE 3: What Is Cybersecurity?
+            {
+                id: 3,
+                title: "৩. Cybersecurity কী?",
+                visualTitle: "*_*",
+                content: `
+                    <div class="text-center space-y-6">
+                        <div class="p-6 bg-slate-700/50 rounded-xl border border-blue-500">
+                            <h3 class="text-2xl font-bold text-white mb-2">সহজ সংজ্ঞা:</h3>
+                            <p class="text-xl text-slate-200">
+                                "Cyber threat থেকে নিজেকে ও সবাইকে রক্ষা করার সব process-ই Cybersecurity।"
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="p-4 bg-slate-800 rounded-lg">
+                                <div class="text-4xl mb-2">🛡️</div>
+                                <h4 class="font-bold text-emerald-400">Protection</h4>
+                                <p class="text-xs text-slate-400">আক্রমণ ঠেকানো</p>
+                            </div>
+                            <div class="p-4 bg-slate-800 rounded-lg">
+                                <div class="text-4xl mb-2">🔍</div>
+                                <h4 class="font-bold text-blue-400">Detection</h4>
+                                <p class="text-xs text-slate-400">আক্রমণ শনাক্ত করা</p>
+                            </div>
+                            <div class="p-4 bg-slate-800 rounded-lg">
+                                <div class="text-4xl mb-2">⚡</div>
+                                <h4 class="font-bold text-red-400">Response</h4>
+                                <p class="text-xs text-slate-400">পাল্টা ব্যবস্থা নেওয়া</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                nextButtonText: "Next: Pre & Post Security"
+            },
+
+            // SLIDE 4: Pre & Post Security
+            {
+                id: 4,
+                title: "৪. Pre & Post Security Method",
+                visualTitle: "*_*",
+                content: `
+                    <div class="grid md:grid-cols-2 gap-6 h-full">
+                        <div class="p-5 rounded-xl bg-emerald-900/30 border border-emerald-600">
+                            <h3 class="text-xl font-bold text-emerald-400 mb-4">✅ Pre-Security (প্রতিরোধ)</h3>
+                            <ul class="space-y-2 text-slate-200 text-sm">
+                                <li>🔒 Strong Password & 2FA</li>
+                                <li>🛡️ Firewall & Antivirus</li>
+                                <li>🔄 Regular Updates</li>
+                                <li>🧠 User Awareness</li>
+                            </ul>
+                            <p class="mt-4 text-xs text-emerald-200 italic">"আক্রমণ হওয়ার আগেই ব্যবস্থা নেওয়া"</p>
+                        </div>
+
+                        <div class="p-5 rounded-xl bg-red-900/30 border border-red-600">
+                            <h3 class="text-xl font-bold text-red-400 mb-4">🔴 Post-Security (রিকভারি)</h3>
+                            <ul class="space-y-2 text-slate-200 text-sm">
+                                <li>🚨 Incident Response</li>
+                                <li>📜 Log Analysis</li>
+                                <li>💾 Backup Restore</li>
+                                <li>🕵️ Digital Forensics</li>
+                            </ul>
+                            <p class="mt-4 text-xs text-red-200 italic">"আক্রমণ হওয়ার পরে ক্ষতি কমানো"</p>
+                        </div>
+                    </div>
+                `,
+                nextButtonText: "Next: Scope"
+            },
+
+            // SLIDE 5: How Big Is It?
+            {
+                id: 5,
+                title: "৫. এই ফিল্ড কতটা বিশাল?",
+                visualTitle: "The Ocean Analogy 🌊",
+                content: `
+                    <div class="text-center flex flex-col items-center justify-center h-full space-y-8">
+                        <div class="text-8xl animate-bounce">🌊</div>
+                        <h3 class="text-3xl md:text-4xl font-extrabold text-blue-300">
+                            "Cybersecurity field is like an ocean."
+                        </h3>
+                        <p class="text-xl text-slate-200 bg-slate-800 p-4 rounded-lg">
+                            এর শুরু আছে, কিন্তু <span class="text-red-400 font-bold">শেষ নেই</span>।
+                        </p>
+                        <p class="text-slate-400">Technology change হলে attack change হয়, তাই শেখাও কখনো শেষ হয় না।</p>
+                    </div>
+                `,
+                nextButtonText: "Next: Branches"
+            },
+
+            // SLIDE 6: Core Branches
+            {
+                id: 6,
+                title: "৬. Cybersecurity Core Branches",
+                visualTitle: "Red Team vs Blue Team",
+                content: `
+                    <div class="flex flex-col items-center space-y-6 w-full">
+                        <div class="grid md:grid-cols-2 gap-8 w-full">
+                            <div class="text-center p-6 border-2 border-red-500 rounded-2xl bg-slate-800">
+                                <div class="text-5xl mb-4">⚔️</div>
+                                <h3 class="text-2xl font-bold text-red-500 mb-4">Offensive (Red)</h3>
+                                <ul class="text-slate-300 space-y-1">
+                                    <li>Ethical Hacker</li>
+                                    <li>Penetration Tester (Web/App)</li>
+                                    <li>Exploit Developer</li>
+                                </ul>
+                            </div>
+                            <div class="text-center p-6 border-2 border-blue-500 rounded-2xl bg-slate-800">
+                                <div class="text-5xl mb-4">🛡️</div>
+                                <h3 class="text-2xl font-bold text-blue-500 mb-4">Defensive (Blue)</h3>
+                                <ul class="text-slate-300 space-y-1">
+                                    <li>SOC Analyst</li>
+                                    <li>Incident Responder</li>
+                                    <li>Threat Hunter</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div
+                            class="cursor-pointer p-3 bg-slate-700 rounded-lg hover:bg-emerald-600 transition flex flex-col items-center justify-center text-center shadow-md w-full max-w-[200px]"
+                            onclick="showTypeDiagram('${TYPE_DIAGRAM_PATH}')"
+                        >
+                            <span class="text-2xl">🗺️</span>
+                            <span class="text-sm font-mono font-bold mt-1 text-white">Hacker Type View</span>
+                        </div>
+                    </div>
+                `,
+                nextButtonText: "Next: Specialized Domains"
+            },
+
+            // SLIDE 7: Specialized Domains
+            {
+                id: 7,
+                title: "৭. আরও বিশেষায়িত ক্ষেত্রসমূহ",
+                visualTitle: "A Complete Ecosystem",
+                content: `
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <span class="px-4 py-2 bg-purple-900 rounded-full text-purple-200 border border-purple-500">🕵️ Digital Forensics</span>
+                        <span class="px-4 py-2 bg-yellow-900 rounded-full text-yellow-200 border border-yellow-500">🦠 Malware Analysis</span>
+                        <span class="px-4 py-2 bg-blue-900 rounded-full text-blue-200 border border-blue-500">☁️ Cloud Security</span>
+                        <span class="px-4 py-2 bg-green-900 rounded-full text-green-200 border border-green-500">⚙️ DevSecOps</span>
+                        <span class="px-4 py-2 bg-orange-900 rounded-full text-orange-200 border border-orange-500">📋 GRC (Governance)</span>
+                        <span class="px-4 py-2 bg-indigo-900 rounded-full text-indigo-200 border border-indigo-500">🤖 AI & OT Security</span>
+                        <span class="px-4 py-2 bg-pink-900 rounded-full text-pink-200 border border-pink-500">🏗️ Security Architect</span>
+                    </div>
+                    <div class="mt-8 text-center p-4 bg-slate-700 rounded-lg">
+                        <p class="text-lg text-white">এই ফিল্ড শুধু হ্যাকিং না—এটি একটি সম্পূর্ণ ইকোসিস্টেম।</p>
+                    </div>
+                `,
+                nextButtonText: "Next: Mastery?"
+            },
+
+            // SLIDE 8: Can Anyone Master It?
+            {
+                id: 8,
+                title: "৮. কেউ কি সব জানতে পারে?",
+                visualTitle: "The Reality Check",
+                content: `
+                    <div class="text-center space-y-6">
+                        <h1 class="text-8xl font-black text-red-500">❌ NO</h1>
+                        <div class="space-y-2 text-xl text-slate-200">
+                            <p>✅ Everyone is a learner</p>
+                            <p>✅ Everyone chooses one core</p>
+                            <p>✅ Threats change every day</p>
+                        </div>
+                        <blockquote class="p-4 border-l-4 border-emerald-500 bg-slate-800 italic text-emerald-300">
+                            "If someone says they are a complete expert, they are wrong."
+                        </blockquote>
+                    </div>
+                `,
+                nextButtonText: "Next: Importance"
+            },
+
+            // SLIDE 9: Why Important?
+            {
+                id: 9,
+                title: "৯. কেন এটি গুরুত্বপূর্ণ?",
+                visualTitle: "Data Safe = Life Safe",
+                content: `
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-slate-800 rounded-lg text-center hover:bg-slate-700">
+                            <div class="text-3xl">👤</div>
+                            <h4 class="font-bold">Personal Data</h4>
+                            <p class="text-xs">Privacy & Identity</p>
+                        </div>
+                        <div class="p-4 bg-slate-800 rounded-lg text-center hover:bg-slate-700">
+                            <div class="text-3xl">💰</div>
+                            <h4 class="font-bold">Financial Data</h4>
+                            <p class="text-xs">Money & Banking</p>
+                        </div>
+                        <div class="p-4 bg-slate-800 rounded-lg text-center hover:bg-slate-700">
+                            <div class="text-3xl">🏥</div>
+                            <h4 class="font-bold">Medical Data</h4>
+                            <p class="text-xs">Health Records</p>
+                        </div>
+                        <div class="p-4 bg-slate-800 rounded-lg text-center hover:bg-slate-700">
+                            <div class="text-3xl">🏛️</div>
+                            <h4 class="font-bold">National Infrastructure</h4>
+                            <p class="text-xs">Power & Defense</p>
+                        </div>
+                    </div>
+                    <p class="text-center mt-6 text-slate-300">আজ আমাদের জীবন ডিজিটাল—ডাটা সেফ না থাকলে জীবন সেফ না।</p>
+                `,
+                nextButtonText: "Next: Examples"
+            },
+
+            // SLIDE 10: Real-Life Examples
+            {
+                id: 10,
+                title: "১০. বাস্তব উদাহরণ (Real Life)",
+                visualTitle: "Impact of Cyber Attacks",
+                content: `
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 p-3 bg-slate-800 rounded-lg border-l-4 border-blue-500">
+                            <div class="text-2xl">📱</div>
+                            <div>
+                                <h4 class="font-bold text-white">Social Media Hack</h4>
+                                <p class="text-sm text-slate-400">Identity Theft & Blackmail</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 p-3 bg-slate-800 rounded-lg border-l-4 border-yellow-500">
+                            <div class="text-2xl">🏦</div>
+                            <div>
+                                <h4 class="font-bold text-white">Bank Fraud</h4>
+                                <p class="text-sm text-slate-400">Data Breach = কোটি টাকা ক্ষতি</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 p-3 bg-slate-800 rounded-lg border-l-4 border-red-500">
+                            <div class="text-2xl">🏥</div>
+                            <div>
+                                <h4 class="font-bold text-white">Hospital Ransomware</h4>
+                                <p class="text-sm text-slate-400">Patient data leak → Life Risk</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 p-3 bg-slate-800 rounded-lg border-l-4 border-purple-500">
+                            <div class="text-2xl">🌍</div>
+                            <div>
+                                <h4 class="font-bold text-white">National Grid Hack</h4>
+                                <p class="text-sm text-slate-400">Power outage → National Disaster</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                nextButtonText: "Next: কাদের জন্য?"
+            },
+
+            // SLIDE 11: Who is it for?
+            {
+                id: 11,
+                title: "১১. কাদের জন্য সাইবারসিকিউরিটি?",
+                visualTitle: "প্রয়োজনীয় গুণাবলী",
+                content: `
+                    <div class="grid md:grid-cols-3 gap-4 text-center">
+                        <div class="p-4 rounded-xl bg-indigo-900/40 border border-indigo-500">
+                            <div class="text-3xl mb-2">🤔</div>
+                            <h4 class="font-bold text-indigo-300">সমস্যা সমাধানকারী</h4>
+                            <p class="text-xs text-slate-300">যাদের Problem Solving Mindset আছে।</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-indigo-900/40 border border-indigo-500">
+                            <div class="text-3xl mb-2">🔎</div>
+                            <h4 class="font-bold text-indigo-300">কৌতূহলী (Curious)</h4>
+                            <p class="text-xs text-slate-300">যারা জানতে চায় "জিনিসটা কাজ করে কিভাবে?"</p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-indigo-900/40 border border-indigo-500">
+                            <div class="text-3xl mb-2">🧗</div>
+                            <h4 class="font-bold text-indigo-300">ধৈর্যশীল</h4>
+                            <p class="text-xs text-slate-300">হাল না ছেড়ে শেখার আগ্রহ যাদের আছে।</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 text-center">
+                        <p class="text-emerald-400 font-bold">মিথ: "এটা শুধু কম্পিউটার সায়েন্স স্টুডেন্টদের জন্য না, যেকোনো ব্যাকগ্রাউন্ড থেকে আসা যায়।"</p>
+                    </div>
+                `,
+                nextButtonText: "Next: Career"
+            },
+
+            // SLIDE 12: Career in Cybersecurity
+            {
+                id: 12,
+                title: "১২. ক্যারিয়ার (Career)",
+                visualTitle: "Future & Demand",
+                content: `
+                    <div class="text-center space-y-6">
+                        <h3 class="text-3xl font-bold text-white">কেন এখানে ক্যারিয়ার গড়বেন?</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-slate-700 p-4 rounded-lg">
+                                <h4 class="font-bold text-emerald-400">📈 Huge Demand</h4>
+                                <p class="text-xs">বিশ্বজুড়ে দক্ষ কর্মীর অভাব</p>
+                            </div>
+                            <div class="bg-slate-700 p-4 rounded-lg">
+                                <h4 class="font-bold text-blue-400">💰 High Salary</h4>
+                                <p class="text-xs">অন্যান্য IT জবের তুলনায় বেশি</p>
+                            </div>
+                            <div class="bg-slate-700 p-4 rounded-lg">
+                                <h4 class="font-bold text-purple-400">🌍 Global Opportunity</h4>
+                                <p class="text-xs">Remote Job & Relocation</p>
+                            </div>
+                            <div class="bg-slate-700 p-4 rounded-lg">
+                                <h4 class="font-bold text-yellow-400">🚀 Impact</h4>
+                                <p class="text-xs">মানুষ ও দেশকে সুরক্ষিত করার সুযোগ</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                nextButtonText: "Next: Conclusion"
+            },
+
+            // SLIDE 13: Final Message
+            // NOTE: this used to be unreachable (an off-by-one bug skipped straight to the
+            // Q&A screen before this slide ever rendered). Fixed below in loadScenario().
+            {
+                id: 13,
+                title: "১৩. শেষ কথা (Conclusion)",
+                visualTitle: "Cybersecurity is a Human Safety Issue",
+                content: `
+                    <div class="text-center space-y-6">
+                        <blockquote class="p-5 border-l-4 border-emerald-500 bg-slate-800 italic text-emerald-300 text-lg md:text-xl">
+                            টেকনোলজি যত এগোবে, ঝুঁকিও তত বাড়বে — কিন্তু সচেতনতাই আমাদের সবচেয়ে বড় প্রতিরক্ষা।
+                        </blockquote>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="p-4 bg-slate-800 rounded-lg">
+                                <div class="text-3xl mb-2">🧠</div>
+                                <h4 class="font-bold text-emerald-400">সচেতন থাকুন</h4>
+                            </div>
+                            <div class="p-4 bg-slate-800 rounded-lg">
+                                <div class="text-3xl mb-2">🔄</div>
+                                <h4 class="font-bold text-blue-400">আপডেটেড থাকুন</h4>
+                            </div>
+                            <div class="p-4 bg-slate-800 rounded-lg">
+                                <div class="text-3xl mb-2">🤝</div>
+                                <h4 class="font-bold text-purple-400">অন্যকে সাহায্য করুন</h4>
+                            </div>
+                        </div>
+                        <p class="text-lg text-slate-200 pt-2">Cybersecurity শুধু IT টিমের দায়িত্ব নয় — এটা <strong class="text-white">আমাদের সবার দায়িত্ব।</strong></p>
+                    </div>
+                `,
+                nextButtonText: "প্রশ্ন-উত্তর পর্বে যান →"
+            }
+        ];
+
+        let currentScenarioIndex = 0;
+        let simulationStarted = false;
+        let startTimestamp = null;
+        let timerInterval = null;
+
+        // --- Certificate / diagram modal ---
+        window.showCertificateDetails = function(name, description, icon, imagePath) {
+            const modal = document.getElementById('certificate-modal');
+            const certImage = document.getElementById('cert-image-placeholder');
+            const certTitle = document.getElementById('cert-title');
+            const certDescription = document.getElementById('cert-description');
+
+            certImage.src = imagePath;
+            certImage.onerror = function() {
+                this.src = `https://placehold.co/300x200/1e293b/a5f3fc?text=${encodeURIComponent(name)}`;
+            };
+
+            certTitle.innerHTML = `${icon} ${name}`;
+            certDescription.textContent = description;
+
+            modal.style.display = 'flex';
+        }
+
+        window.showTypeDiagram = function(imagePath) {
+             showCertificateDetails('Attack Type Diagram', 'Offensive Security-এর বিভিন্ন ধরনের Attack Type ও Path এখানে দেখানো হয়েছে।', '🗺️', imagePath);
+        }
+
+        window.closeModal = function() {
+            document.getElementById('certificate-modal').style.display = 'none';
+        }
+
+        window.toggleFullscreen = function() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // --- Keyboard navigation: Esc closes modal, arrows/space move between slides ---
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                return;
+            }
+            const modalOpen = document.getElementById('certificate-modal').style.display === 'flex';
+            if (modalOpen || !simulationStarted) return;
+
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                loadScenario(currentScenarioIndex + 1);
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                loadScenario(currentScenarioIndex - 1);
+            }
+        });
+
+        function updateTimer() {
+            if (startTimestamp === null) return;
+            const diff = Math.floor((Date.now() - startTimestamp) / 1000);
+            const m = String(Math.floor(diff / 60)).padStart(2, '0');
+            const s = String(diff % 60).padStart(2, '0');
+            const el = document.getElementById('storage-mode-display');
+            if (el) el.textContent = `${m}:${s}`;
+        }
+
+        window.startSimulation = function() {
+            if (simulationStarted) return;
+
+            const contentDiv = document.getElementById('simulator-content');
+            const dashboard = document.getElementById('status-dashboard');
+            const progressBar = document.getElementById('progress-bar-container');
+
+            if (!contentDiv || !dashboard) return;
+
+            simulationStarted = true;
+            currentScenarioIndex = 0;
+            dashboard.style.display = 'flex';
+            progressBar.style.display = 'block';
+
+            startTimestamp = Date.now();
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+
+            loadScenario(currentScenarioIndex);
+        }
+
+        window.loadScenario = function(index) {
+            const contentDiv = document.getElementById('simulator-content');
+            if (index < 0) index = 0;
+
+            // Reaching past the final slide (index 13, since there are 13 slides at
+            // indices 0-12) shows the closing Q&A screen.
+            if (index >= presentationSteps.length) {
+                showResults();
+                return;
+            }
+
+            currentScenarioIndex = index;
+            const step = presentationSteps[index];
+
+            contentDiv.innerHTML = `
+                <div id="presentation-container" class="space-y-6 w-full">
+                    <h2 class="text-2xl md:text-3xl font-bold text-emerald-400 text-center">${step.title}</h2>
+                    <div class="p-5 rounded-xl bg-slate-800/70 border-l-4 border-blue-500 shadow-2xl min-h-[300px] flex flex-col justify-center">
+                        <h3 class="text-xl font-semibold text-blue-300 mb-4 text-center">${step.visualTitle}</h3>
+                        <div class="text-base text-slate-200">
+                            ${step.content}
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center pt-4">
+                        <button
+                            class="custom-button p-3 px-6 text-sm font-semibold rounded-lg bg-slate-700 text-white hover:bg-slate-600"
+                            onclick="loadScenario(${index - 1})"
+                            ${index === 0 ? 'disabled' : ''}
+                        >
+                            &larr; Previous
+                        </button>
+                        <button
+                            class="custom-button p-3 px-6 text-lg font-bold rounded-lg bg-emerald-600 text-slate-900 hover:bg-emerald-500"
+                            onclick="loadScenario(${index + 1})"
+                        >
+                            ${step.nextButtonText} &rarr;
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('progress-display').textContent = `Slide ${index + 1} / ${presentationSteps.length}`;
+            const pct = Math.round(((index + 1) / presentationSteps.length) * 100);
+            document.getElementById('score-display').textContent = `${pct}%`;
+            const fill = document.getElementById('progress-bar-fill');
+            if (fill) fill.style.width = `${pct}%`;
+        }
+
+        function showResults() {
+            const contentDiv = document.getElementById('simulator-content');
+            if (timerInterval) clearInterval(timerInterval);
+
+            contentDiv.innerHTML = `
+                <div class="text-center space-y-8 p-8 simulator-card">
+                    <h2 class="text-3xl font-extrabold text-emerald-400">সমাপ্তি ও প্রশ্ন-উত্তর পর্ব!</h2>
+                    <p class="text-2xl font-semibold text-blue-300">এতক্ষণ ধৈর্য ধরে শোনার জন্য ধন্যবাদ।</p>
+                    <p class="text-lg text-slate-300">আপনাদের যদি সাইবারসিকিউরিটির যেকোনো দিক (ক্যারিয়ার, টেকনিক্যাল দক্ষতা, সার্টিফিকেশন) নিয়ে কোনো প্রশ্ন থাকে, তবে এখন করতে পারেন।</p>
+                    <div class="pt-4">
+                        <p class="text-xl font-bold text-red-400">মূল বার্তা: <strong class="text-white">শেখা থামিও না!</strong></p>
+                    </div>
+                    <button
+                        class="custom-button p-3 px-6 text-lg font-bold rounded-lg bg-emerald-600 text-slate-900 hover:bg-emerald-500"
+                        onclick="window.location.reload()"
+                    >
+                        শুরু থেকে দেখুন (Restart)
+                    </button>
+                </div>
+            `;
+            document.getElementById('progress-display').textContent = `সমাপ্ত!`;
+            document.getElementById('score-display').textContent = `100%`;
+            const fill = document.getElementById('progress-bar-fill');
+            if (fill) fill.style.width = `100%`;
+        }
+
+        window.addEventListener('load', () => {
+             document.getElementById('progress-display').textContent = 'Ready';
+             document.getElementById('score-display').textContent = '—';
+             document.getElementById('storage-mode-display').textContent = '00:00';
+             document.getElementById('status-dashboard').style.display = 'none';
+             document.getElementById('progress-bar-container').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
